@@ -1,1 +1,51 @@
 @import url(../vendor/fonts/fonts.css);
+
+@import url(../blocks/page/page.css);
+@import url(../blocks/page/__block/page__block.css);
+
+@import url(../blocks/header/header.css);
+@import url(../blocks/header/__logo/header__logo.css);
+
+@import url(../blocks/body/body.css);
+
+@import url(../blocks/profile/profile.css);
+@import url(../blocks/profile/__content/profile__content.css);
+@import url(../blocks/profile/__avatar/profile__avatar.css);
+@import url(../blocks/profile/__info/profile__info.css);
+@import url(../blocks/profile/__name/profile__name.css);
+@import url(../blocks/profile/__edit-button/profile__edit-button.css);
+@import url(../blocks/profile/__text/profile__text.css);
+@import url(../blocks/profile/__add-button/profile__add-button.css);
+
+@import url(../blocks/elements/elements.css);
+
+@import url(../blocks/element/element.css);
+@import url(../blocks/element/__image/element__image.css);
+@import url(../blocks/element/__group/element__group.css);
+@import url(../blocks/element/__label/element__label.css);
+@import url(../blocks/element/__like/element__like.css);
+@import url(../blocks/element/__like/_switch/element__like_switch_on.css);
+
+@import url(../blocks/footer/footer.css);
+@import url(../blocks/footer/__copyright/footer__copyright.css);
+
+/* .header {
+
+    border-color: aliceblue;
+    border-style: solid;
+
+} 
+
+.profile {
+
+    border-color: aliceblue;
+    border-style: solid;
+
+}
+
+.elements {
+
+    border-color: aliceblue;
+    border-style: solid;
+
+} */

@@ -1,0 +1,25 @@
+.footer {
+
+    min-height: 145px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+
+}
+
+@media screen and (max-width: 639px) {
+    
+    .footer {
+
+        min-height: 98px;
+    
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+    
+    }
+
+}

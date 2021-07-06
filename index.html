@@ -5,21 +5,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="pages/index.css">
-    <title>Место</title>
+    <title>Mesto</title>
 </head>
 
-<body class="">
+<body class="page">
 
-    <header class="">
-
+    <header class="header page__block">
+        <img src="./images/logo-mesto.svg" alt="Логотип проекта" class="header__logo">
     </header>
 
-    <main class="">
+    <main class="body">
+
+        <section class="profile page__block">
+            <div class="profile__content">
+                <img src="./images/avatar.png" alt="Аватар" class="profile__avatar">
+                <div class="profile__info">
+                    <h1 class="profile__name">
+                        Жак-Ив Кусто
+                    </h1>
+                    <img src="./images/Edit Button.svg" alt="Кнопка Редактировать" class="profile__edit-button">
+                    <p class="profile__text">
+                        Исследователь океана
+                    </p>
+                </div>
+            </div>
+            <img src="./images/Add Button.svg" alt="Кнопка Добавить" class="profile__add-button">
+        </section>
+
+        <section class="elements page__block">
+            <div class="element">
+                <img src="./images/karachayevsk.png" alt="" class="element__image">
+                <div class="element__group">
+                    <p class="element__label">Карачаевск</p>
+                    <img src="./images/like.svg" alt="" class="element__like element__like_switch_on">
+                </div>
+            </div>
+            <div class="element">
+                <img src="./images/elbrus.png" alt="" class="element__image">
+                <div class="element__group">
+                    <p class="element__label">Гора Эльбрус</p>
+                    <img src="./images/like.svg" alt="" class="element__like">
+                </div>
+            </div>
+            <div class="element">
+                <img src="./images/dombay.png" alt="" class="element__image">
+                <div class="element__group">
+                    <p class="element__label">Домбай</p>
+                    <img src="./images/like.svg" alt="" class="element__like">
+                </div>
+            </div>
+            <div class="element">
+                <img src="./images/elbrus.png" alt="" class="element__image">
+                <div class="element__group">
+                    <p class="element__label">Гора Эльбрус</p>
+                    <img src="./images/like.svg" alt="" class="element__like">
+                </div>
+            </div>
+            <div class="element">
+                <img src="./images/dombay.png" alt="" class="element__image">
+                <div class="element__group">
+                    <p class="element__label">Домбай</p>
+                    <img src="./images/like.svg" alt="" class="element__like">
+                </div>
+            </div>
+            <div class="element">
+                <img src="./images/karachayevsk.png" alt="" class="element__image">
+                <div class="element__group">
+                    <p class="element__label">Карачаево-Ч...</p>
+                    <img src="./images/like.svg" alt="" class="element__like">
+                </div>
+            </div>
+        </section>
 
     </main>
 
-    <footer class="">
-
+    <footer class="footer page__block">
+        <p class="footer__copyright">&copy; 2021 Mesto Russia</p>
     </footer>
 
 </body>

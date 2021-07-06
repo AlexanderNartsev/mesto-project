@@ -1,0 +1,18 @@
+.page {
+
+    margin: 0;
+
+    background: #000000;
+
+    
+}
+
+@media screen and (max-width:639px) {
+    
+    .page {
+        
+        padding: 0 19px;
+
+    }
+    
+}

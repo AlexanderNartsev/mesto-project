@@ -1,0 +1,13 @@
+.profile__edit-button {
+
+    align-self: center;
+
+    transition-duration: 0.7s;
+
+}
+
+.profile__edit-button:hover {
+
+    opacity: 0.6;
+
+}

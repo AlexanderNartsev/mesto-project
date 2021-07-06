@@ -1,0 +1,26 @@
+.profile__text {
+
+    margin: 0;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+
+    color: #FFFFFF;
+
+}
+
+@media screen and (max-width:639px) {
+    
+    .profile__text {
+        
+        text-align: center;
+        font-size: 14px;
+        line-height: 17px;
+        grid-column: 1/-1;
+
+    }
+    
+}
