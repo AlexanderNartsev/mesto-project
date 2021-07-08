@@ -32,3 +32,11 @@
 
 @import url(../blocks/edit-button/edit-button.css);
 @import url(../blocks/edit-button/__icon/edit-button__icon.css);
+
+@import url(../blocks/form/form.css);
+@import url(../blocks/form/__container/form__container.css);
+@import url(../blocks/form/__header/form__header.css);
+@import url(../blocks/form/__input/form__input.css);
+@import url(../blocks/form/__item/form__item.css);
+@import url(../blocks/form/__handlers/form__handlers.css);
+@import url(../blocks/form/__button/form__button.css);

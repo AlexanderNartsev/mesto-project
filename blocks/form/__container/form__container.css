@@ -1,0 +1,29 @@
+.form__container {
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: fixed;
+
+    display: none;
+
+}
+
+.form__container::after {
+
+    width: 100%;
+    height: 100%;
+
+    background: #000000;
+    opacity: 0.5;
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+}
