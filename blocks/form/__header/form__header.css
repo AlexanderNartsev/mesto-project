@@ -13,3 +13,16 @@
 
     color: #000000;
 }
+
+@media screen and (max-width: 679px) {
+   
+    .form__header {
+
+        font-size: 18px;
+        line-height: 22px;
+    }
+     
+}
+
+
+
