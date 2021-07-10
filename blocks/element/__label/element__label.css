@@ -1,7 +1,8 @@
 .element__label {
 
     margin: 0;
-    padding: 25px 0 31px 21px;
+
+    max-width: 209px;
 
     font-family: 'Inter', Arial, sans-serif;
     font-style: normal;

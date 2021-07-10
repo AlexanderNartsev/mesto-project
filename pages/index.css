@@ -25,7 +25,7 @@
 @import url(../blocks/element/__group/element__group.css);
 @import url(../blocks/element/__label/element__label.css);
 @import url(../blocks/element/__like/element__like.css);
-@import url(../blocks/element/__like/element__like_on.css);
+@import url(../blocks/element/__like/_on/element__like_on.css);
 
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);
@@ -44,7 +44,7 @@
 @import url(../blocks/button/__icon/_el/button__icon_el_close.css);
 
 @import url(../blocks/form-container/form-container.css);
-@import url(../blocks/form-container/form-container_opened.css);
+@import url(../blocks/form-container/_opened/form-container_opened.css);
 
 @import url(../blocks/form/form.css);
 @import url(../blocks/form/__header/form__header.css);

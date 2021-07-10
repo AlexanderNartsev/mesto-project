@@ -1,5 +1,11 @@
+.button {
+
+    padding: 0;
+
+}
+
 .button:hover {
-    
+
     opacity: .6;
     transition-duration: .7s;
 
