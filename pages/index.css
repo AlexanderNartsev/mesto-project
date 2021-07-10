@@ -1,3 +1,5 @@
+@import url(../vendor/normalize.css);
+
 @import url(../vendor/fonts/fonts.css);
 
 @import url(../blocks/page/page.css);
@@ -7,6 +9,7 @@
 @import url(../blocks/header/__logo/header__logo.css);
 
 @import url(../blocks/body/body.css);
+@import url(../blocks/body/__block/body__block.css);
 
 @import url(../blocks/profile/profile.css);
 @import url(../blocks/profile/__content/profile__content.css);
@@ -22,21 +25,29 @@
 @import url(../blocks/element/__group/element__group.css);
 @import url(../blocks/element/__label/element__label.css);
 @import url(../blocks/element/__like/element__like.css);
-@import url(../blocks/element/__like/_switch/element__like_switch_on.css);
+@import url(../blocks/element/__like/element__like_on.css);
 
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);
 
-@import url(../blocks/add-button/add-button.css);
-@import url(../blocks/add-button/__icon/add-button__icon.css);
+@import url(../blocks/button/button.css);
 
-@import url(../blocks/edit-button/edit-button.css);
-@import url(../blocks/edit-button/__icon/edit-button__icon.css);
+@import url(../blocks/button/_type/button_type_add.css);
+@import url(../blocks/button/__icon/_el/button__icon_el_add.css);
+
+@import url(../blocks/button/_type/button_type_edit.css);
+@import url(../blocks/button/__icon/_el/button__icon_el_edit.css);
+
+@import url(../blocks/button/_type/button_type_save.css);
+
+@import url(../blocks/button/_type/button_type_close.css);
+@import url(../blocks/button/__icon/_el/button__icon_el_close.css);
+
+@import url(../blocks/form-container/form-container.css);
+@import url(../blocks/form-container/form-container_opened.css);
 
 @import url(../blocks/form/form.css);
-@import url(../blocks/form/__container/form__container.css);
 @import url(../blocks/form/__header/form__header.css);
 @import url(../blocks/form/__input/form__input.css);
 @import url(../blocks/form/__item/form__item.css);
 @import url(../blocks/form/__handlers/form__handlers.css);
-@import url(../blocks/form/__button/form__button.css);

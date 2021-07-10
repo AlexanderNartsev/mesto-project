@@ -21,30 +21,6 @@
 
 }
 
-.form::after {
-
-    width: 32px;
-    height: 32px;
-
-    background-image: url(../../images/Close.svg);
-    background-size: contain;
-
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: calc(100% + 8px);
-
-    content: "";
-
-    transition-duration: .7;
-
-}
-
-.form:hover::after {
-
-    opacity: 0.6;
-
-}
-
 @media screen and (max-width: 679px) {
 
     .form {
@@ -53,16 +29,6 @@
         margin: auto 19px;
 
         padding: 25px 22px;
-    
-    }
-
-    .form::after {
-
-        width: 20px;
-        height: 20px;
-
-        bottom: calc(100% + 16px);
-        left: calc(100% - 20px);
     
     }
     

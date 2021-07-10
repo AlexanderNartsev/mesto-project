@@ -3,8 +3,7 @@
     margin: 0;
 
     background: #FFFFFF;
-    min-height: 79px;
-
+    
     display: flex;
     flex-direction: row;
     justify-content: space-between;

@@ -1,0 +1,28 @@
+.button_type_close {
+
+    width: 32px;
+    height: 32px;
+
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: calc(100% + 8px);
+
+}
+
+@media screen and (max-width: 679px) {
+
+    .button_type_close {
+
+        width: 20px;
+        height: 20px;
+
+        bottom: calc(100% + 16px);
+        left: calc(100% - 20px);
+    
+    }
+    
+}

@@ -1,4 +1,4 @@
-.edit-button__icon {
+.button__icon_el_edit {
 
     width: 10px;
     height: 10px;
@@ -7,7 +7,7 @@
 
 @media screen and (max-width: 679px) {
     
-    .edit-button__icon {
+    .button__icon_el_edit {
 
         width: 8px;
         height: 8px;

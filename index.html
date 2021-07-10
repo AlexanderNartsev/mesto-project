@@ -8,21 +8,19 @@
     <title>Mesto</title>
 </head>
 
-<div class="form__container">
-    <form action="" class="form">
-        <h1 class="form__header">Редактировать профиль</h1>
-        <fieldset class="form__input">
-            <input type="text" name="Name" class="form__item" placeholder="Имя">
-            <br>
-            <input type="text" name="Activity-type" class="form__item" placeholder="Дополнительная информация">
-        </fieldset>
-        <fieldset class="form__handlers">
-            <input type="submit" class="form__button" value="Сохранить">
-        </fieldset>
-    </form>
-</div>
-
 <body class="page">
+
+    <div class="form-container">
+        <form action="#" class="form" name="edit-form">
+            <h2 class="form__header">Редактировать профиль</h2>
+            <input type="text" name="name" class="form__item" placeholder="Имя">
+            <input type="text" name="activity-type" class="form__item" placeholder="Дополнительная информация">
+            <button type="submit" class="button button_type_save" value="Сохранить">Сохранить</button>
+            <button type="button" class="button button_type_close">
+                <img src="./images/Close.svg" alt="Кнопка Закрыть" class="button__icon button__icon_el_close">
+            </button>
+        </form>
+    </div>
 
     <header class="header page__block">
         <img src="./images/logo-mesto.svg" alt="Логотип проекта" class="header__logo">
@@ -30,67 +28,80 @@
 
     <main class="body">
 
-        <section class="profile page__block">
+        <section class="profile body__block">
             <div class="profile__content">
                 <img src="./images/avatar.png" alt="Аватар" class="profile__avatar">
                 <div class="profile__info">
                     <h1 class="profile__name">
                         Жак-Ив Кусто
                     </h1>
-                    <div class="edit-button">
-                        <img src="./images/edit.svg" alt="Кнопка Редактировать" class="edit-button__icon">
-                    </div>
+                    <button type="button" class="button button_type_edit">
+                        <img src="./images/edit.svg" alt="Кнопка Редактировать"
+                            class="button__icon button__icon_el_edit">
+                    </button>
                     <p class="profile__text">
                         Исследователь океана
                     </p>
                 </div>
             </div>
-            <div class="add-button">
-                <img src="./images/add.svg" alt="Кнопка Добавить" class="add-button__icon">
-            </div>
+            <button type="button" class="button button_type_add">
+                <img src="./images/add.svg" alt="Кнопка Добавить" class="button__icon button__icon_el_add">
+            </button>
         </section>
 
-        <section class="elements page__block">
+        <section class="elements body__block">
             <div class="element">
                 <img src="./images/karachayevsk.png" alt="Фото" class="element__image">
                 <div class="element__group">
                     <p class="element__label">Карачаевск</p>
-                    <img src="./images/like.svg" alt="Кнопка Лайк" class="element__like element__like_switch_on">
+                    <button type="button" class="button element__like element__like_on">
+                        <img src="./images/like.svg" alt="Кнопка Лайк">
+                    </button>
                 </div>
             </div>
             <div class="element">
                 <img src="./images/elbrus.png" alt="Фото" class="element__image">
                 <div class="element__group">
                     <p class="element__label">Гора Эльбрус</p>
-                    <img src="./images/like.svg" alt="Кнопка Лайк" class="element__like">
+                    <button type="button" class="button element__like">
+                        <img src="./images/like.svg" alt="Кнопка Лайк">
+                    </button>
                 </div>
             </div>
             <div class="element">
                 <img src="./images/dombay.png" alt="Фото" class="element__image">
                 <div class="element__group">
                     <p class="element__label">Домбай</p>
-                    <img src="./images/like.svg" alt="Кнопка Лайк" class="element__like">
+                    <button type="button" class="button element__like">
+                        <img src="./images/like.svg" alt="Кнопка Лайк">
+                    </button>
                 </div>
             </div>
             <div class="element">
                 <img src="./images/elbrus.png" alt="Фото" class="element__image">
                 <div class="element__group">
                     <p class="element__label">Гора Эльбрус</p>
-                    <img src="./images/like.svg" alt="Кнопка Лайк" class="element__like">
+                    <button type="button" class="button element__like">
+                        <img src="./images/like.svg" alt="Кнопка Лайк">
+                    </button>
                 </div>
             </div>
             <div class="element">
                 <img src="./images/dombay.png" alt="Фото" class="element__image">
                 <div class="element__group">
                     <p class="element__label">Домбай</p>
-                    <img src="./images/like.svg" alt="Кнопка Лайк" class="element__like">
+                    <button type="button" class="button element__like">
+                        <img src="./images/like.svg" alt="Кнопка Лайк">
+                    </button>
                 </div>
             </div>
             <div class="element">
                 <img src="./images/karachayevsk.png" alt="Фото" class="element__image">
                 <div class="element__group">
                     <p class="element__label">Карачаево-Черкесия</p>
-                    <img src="./images/like.svg" alt="Кнопка Лайк" class="element__like">
+                    <button type="button" class="button element__like">
+                        <img src="./images/like.svg" alt="Кнопка Лайк">
+                    </button>
                 </div>
             </div>
         </section>
