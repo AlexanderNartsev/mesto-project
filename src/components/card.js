@@ -1,12 +1,11 @@
-import { initialCards } from './initial-сards.js';
-import { popUpNewPlace, openImage, closePopUp, popUpNewPlaceContainer } from './modal.js';
-import { page } from '../index.js'
-
+import { openImage, page, popUpNewPlace, closePopUp, popUpNewPlaceContainer } from "./modal.js";
 // Область добавления карточек
-const cardsArea = page.querySelector('.elements');
+
+// export const page = document.querySelector('.page');
+export const cardsArea = page.querySelector('.elements');
 
 // Сформировать карточку (без добавления на страницу)
-function createCard(cardData) {
+export function createCard(cardData) {
   const cardTemplate = page.querySelector('#element-template').content;
   const card = cardTemplate.querySelector('.element').cloneNode(true);
 
@@ -52,14 +51,6 @@ export function addCard(cardData, cardsArea) {
   cardsArea.prepend(card);
 
 };
-
-// Создать стандартные карточки из массива
-initialCards.forEach(function (cardData) {
-
-  createCard(cardData);
-  addCard(cardData, cardsArea);
-
-});
 
 // Создать карточку вручную
 export function createCardHandle(event) {

@@ -1,24 +1,23 @@
-import { createCardHandle } from "./card.js";
-import { page } from "../index.js";
-
+// modal
+export const page = document.querySelector('.page');
 // Формы
-const popUpProfile = page.querySelector('.edit-form');
+export const popUpProfile = page.querySelector('.edit-form');
 export const popUpNewPlace = page.querySelector('.add-form');
 const popUpImage = page.querySelector('.image-popup');
 
 // Кнопки закрытия форм
-const buttonClosePopUpProfile = popUpProfile.querySelector('.button_type_close');
-const buttonClosePopUpNewPlace = popUpNewPlace.querySelector('.button_type_close');
-const buttonClosePopUpImage = popUpImage.querySelector('.button_type_close');
+export const buttonClosePopUpProfile = popUpProfile.querySelector('.button_type_close');
+export const buttonClosePopUpNewPlace = popUpNewPlace.querySelector('.button_type_close');
+export const buttonClosePopUpImage = popUpImage.querySelector('.button_type_close');
 
 // Контейнеры форм
-const popUpProfileContainer = popUpProfile.closest('.form-container');
+export const popUpProfileContainer = popUpProfile.closest('.form-container');
 export const popUpNewPlaceContainer = popUpNewPlace.closest('.form-container');
-const popUpImageContainer = popUpImage.closest('.form-container');
+export const popUpImageContainer = popUpImage.closest('.form-container');
 
 // Кнопки страницы
-const buttonOpenPopUpProfile = page.querySelector('.button_type_edit');
-const buttonOpenPopUpNewPlace = page.querySelector('.button_type_add');
+export const buttonOpenPopUpProfile = page.querySelector('.button_type_edit');
+export const buttonOpenPopUpNewPlace = page.querySelector('.button_type_add');
 
 // Данные профиля
 let profileName = page.querySelector('.profile__name');
@@ -41,7 +40,7 @@ export function closePopUp(popUp) {
 };
 
 // Открыть модальное окно "Редактировать профиль"
-function openPopUpProfile() {
+export function openPopUpProfile() {
   openPopUp(popUpProfileContainer);
 
   // Присвоить текущие значения профиля полям формы
@@ -50,7 +49,7 @@ function openPopUpProfile() {
 }
 
 // Сохранение данных профиля
-function submitFormProfile(event) {
+export function submitFormProfile(event) {
   // Отключить стандартное поведение
   event.preventDefault();
 
@@ -63,7 +62,7 @@ function submitFormProfile(event) {
 };
 
 // Открыть модальное окно "Добавить место"
-function openPopupAddPlace() {
+export function openPopupAddPlace() {
   openPopUp(popUpNewPlaceContainer);
 }
 
@@ -82,7 +81,7 @@ export function openImage(event) {
 };
 
 // Закрыть поп-ап
-function close(evt, popUp, button) {
+export function close(evt, popUp, button) {
 
   if (evt.target === popUp || evt.target.parentElement === button) {
 
@@ -91,39 +90,3 @@ function close(evt, popUp, button) {
   };
 
 };
-
-// Установка слушателей на элементы
-buttonOpenPopUpProfile.addEventListener('click', openPopUpProfile);
-buttonOpenPopUpNewPlace.addEventListener('click', openPopupAddPlace);
-popUpProfile.addEventListener('submit', submitFormProfile);
-popUpNewPlace.addEventListener('submit', createCardHandle);
-
-page.addEventListener('keydown', function (evt) {
-
-  if (evt.key === 'Escape') {
-
-    const popUpOpened = page.querySelector('.form-container_opened');
-
-    closePopUp(popUpOpened);
-
-  }
-
-});
-
-popUpProfileContainer.addEventListener('click', (evt) => {
-
-  close(evt, popUpProfileContainer, buttonClosePopUpProfile)
-
-});
-
-popUpNewPlaceContainer.addEventListener('click', (evt) => {
-
-  close(evt, popUpNewPlaceContainer, buttonClosePopUpNewPlace)
-
-});
-
-popUpImageContainer.addEventListener('click', (evt) => {
-
-  close(evt, popUpImageContainer, buttonClosePopUpImage)
-
-});
