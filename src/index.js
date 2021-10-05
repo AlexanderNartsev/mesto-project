@@ -2,6 +2,7 @@ import './pages/index.css';
 import { createCard, addCard, cardsArea, createCardHandle } from './components/card.js';
 import { initialCards } from './components/initial-сards.js';
 import { buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, openPopUpProfile, openPopupAddPlace, popUpProfile, submitFormProfile, popUpNewPlace, page, popUpProfileContainer, popUpNewPlaceContainer, popUpImageContainer, closePopUp, buttonClosePopUpNewPlace, buttonClosePopUpProfile, buttonClosePopUpImage, close } from './components/modal.js';
+import { enableValidation } from './components/validate.js';
 
 // Создать стандартные карточки из массива
 initialCards.forEach(function (cardData) {
@@ -46,42 +47,5 @@ popUpImageContainer.addEventListener('click', (evt) => {
   close(evt, popUpImageContainer, buttonClosePopUpImage)
 
 });
-
-function setEventListeners(formEl) {
-
-  const inputList = Array.from(formEl.querySelectorAll('.form__item'));
-  const buttonElement = formEl.querySelector('.button_type_save');
-
-  inputList.forEach((inputEl) => {
-
-    inputEl.addEventListener('input', () => {
-
-      isValid(formEl, inputEl);
-
-      toggleButtonState(inputList, buttonElement);
-
-    });
-
-  });
-
-};
-
-export function enableValidation() {
-
-  const formList = Array.from(document.querySelectorAll('.form-container'));
-
-  formList.forEach((formEl) => {
-
-    formEl.addEventListener('submit', (evt) => {
-
-      evt.preventDefault();
-
-    });
-
-    setEventListeners(formEl);
-
-  });
-
-};
 
 enableValidation();

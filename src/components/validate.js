@@ -70,3 +70,40 @@ export const toggleButtonState = (inputList, buttonElement) => {
 
 };
 
+function setEventListeners(formEl) {
+
+  const inputList = Array.from(formEl.querySelectorAll('.form__item'));
+  const buttonElement = formEl.querySelector('.button_type_save');
+
+  inputList.forEach((inputEl) => {
+
+    inputEl.addEventListener('input', () => {
+
+      isValid(formEl, inputEl);
+
+      toggleButtonState(inputList, buttonElement);
+
+    });
+
+  });
+
+};
+
+export function enableValidation() {
+
+  const formList = Array.from(document.querySelectorAll('.form-container'));
+
+  formList.forEach((formEl) => {
+
+    formEl.addEventListener('submit', (evt) => {
+
+      evt.preventDefault();
+
+    });
+
+    setEventListeners(formEl);
+
+  });
+
+};
+
