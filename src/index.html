@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="./pages/index.css"> -->
     <title>Mesto</title>
 </head>
 
@@ -18,7 +17,7 @@
             <input class="form__item" name="activity-type" type="text" placeholder="Дополнительная информация" required
                 minlength="2" maxlength="200">
             <span class="error activity-type-error"></span>
-            <button class="button button_type_save" type="submit" value="Сохранить" disabled>Сохранить</button>
+            <button class="button button_type_save" type="submit" value="Сохранить">Сохранить</button>
             <button class="button button_type_close" type="button">
                 <img src="<%=require('./images/Close.svg')%>" alt="Кнопка Закрыть"
                     class="button__icon button__icon_el_close">
@@ -34,7 +33,7 @@
             <span class="error name-error"></span>
             <input class="form__item" name="url" type="url" placeholder="Ссылка на картинку" required>
             <span class="error url-error"></span>
-            <button class="button button_type_save" type="submit" value="Создать" disabled>Создать</button>
+            <button class="button button_type_save" type="submit" value="Создать">Создать</button>
             <button class="button button_type_close" type="button">
                 <img src="<%=require('./images/Close.svg')%>" alt="Кнопка Закрыть"
                     class="button__icon button__icon_el_close">
@@ -97,11 +96,6 @@
             </div>
         </div>
     </template>
-
-    <!-- <script type="module" src="./components/initial-сards.js"></script>
-    <script type="module" src="./components/card.js"></script>
-    <script type="module" src="./index.js"></script>
-    <script type="module" src="./components/validate.js"></script> -->
 
 </body>
 

@@ -1,3 +1,5 @@
+import { validationObject, toggleButtonState, isValid } from './validate.js';
+
 // modal
 export const page = document.querySelector('.page');
 // Формы
@@ -20,32 +22,59 @@ export const buttonOpenPopUpProfile = page.querySelector('.button_type_edit');
 export const buttonOpenPopUpNewPlace = page.querySelector('.button_type_add');
 
 // Данные профиля
-let profileName = page.querySelector('.profile__name');
-let profileActivityType = page.querySelector('.profile__text');
+const profileName = page.querySelector('.profile__name');
+const profileActivityType = page.querySelector('.profile__text');
 
 // Поля ввода форм
-let profileNameInput = popUpProfile.querySelector('.form__item[name=name]');
-let profileActivityTypeInput = popUpProfile.querySelector('.form__item[name=activity-type]');
+const profileNameInput = popUpProfile.querySelector('.form__item[name=name]');
+const profileActivityTypeInput = popUpProfile.querySelector('.form__item[name=activity-type]');
+
+//Закрыть клавишей
+function closeByKey(popUp, evt) {
+  if (evt.key === 'Escape') {
+    closePopUp(popUp);
+  };
+}
 
 // Открыть PopUp
-function openPopUp(popUp) {
+function openPopUp(popUp, object) {
   popUp.classList.add('form-container_opened');
+
+  page.addEventListener('keydown', (evt) => {
+    closeByKey(popUp, evt);
+  });
+
+  const inputList = Array.from(popUp.querySelectorAll(object.inputSelector));
+  const buttonElement = popUp.querySelector(object.submitButtonSelector);
+
+  if (inputList) {
+    inputList.forEach((inputEl) => {
+      isValid(popUp, inputEl, object);
+    });
+  }
+
+  if (buttonElement) {
+    toggleButtonState(inputList, buttonElement, object);
+  }
+
 }
 
 // Закрыть PopUp
 export function closePopUp(popUp) {
-
+  page.removeEventListener('keydown', (evt) => {
+    closeByKey(popUp, evt);
+  });
   popUp.classList.remove('form-container_opened');
-
 };
 
 // Открыть модальное окно "Редактировать профиль"
 export function openPopUpProfile() {
-  openPopUp(popUpProfileContainer);
 
   // Присвоить текущие значения профиля полям формы
   profileNameInput.value = profileName.textContent;
   profileActivityTypeInput.value = profileActivityType.textContent;
+
+  openPopUp(popUpProfileContainer, validationObject);
 }
 
 // Сохранение данных профиля
@@ -63,30 +92,25 @@ export function submitFormProfile(event) {
 
 // Открыть модальное окно "Добавить место"
 export function openPopupAddPlace() {
-  openPopUp(popUpNewPlaceContainer);
+  openPopUp(popUpNewPlaceContainer, validationObject);
 }
 
 // Открыть модальное окно с изображением
 export function openImage(event) {
-  openPopUp(popUpImageContainer);
 
-  let imageUrl = popUpImageContainer.querySelector('.image-popup__image').getAttribute('src');
-  let imageName = popUpImageContainer.querySelector('.image-popup__image').getAttribute('alt');
+  openPopUp(popUpImageContainer, validationObject);
 
-  imageUrl = event.target.getAttribute('src');
-  imageName = event.target.getAttribute('alt');
+  const imageUrl = event.target.getAttribute('src');
+  const imageName = event.target.getAttribute('alt');
 
   popUpImageContainer.querySelector('.image-popup__image').setAttribute('src', imageUrl);
   popUpImageContainer.querySelector('.image-popup__name').textContent = imageName;
+
 };
 
 // Закрыть поп-ап
-export function close(evt, popUp, button) {
-
+export function closeByOverlayOrButton(evt, popUp, button) {
   if (evt.target === popUp || evt.target.parentElement === button) {
-
     closePopUp(popUp);
-
   };
-
 };
