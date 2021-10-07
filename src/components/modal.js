@@ -49,7 +49,9 @@ function openPopUp(popUp, object) {
 
   if (inputList) {
     inputList.forEach((inputEl) => {
-      isValid(popUp, inputEl, object);
+      if (inputEl.value) {
+        isValid(popUp, inputEl, object);
+      }
     });
   }
 
