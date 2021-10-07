@@ -30,9 +30,10 @@ const profileNameInput = popUpProfile.querySelector('.form__item[name=name]');
 const profileActivityTypeInput = popUpProfile.querySelector('.form__item[name=activity-type]');
 
 //Закрыть клавишей
-function closeByKey(popUp, evt) {
+function closeByKey(evt) {
+  const activePopUp = page.querySelector('.form-container_opened');
   if (evt.key === 'Escape') {
-    closePopUp(popUp);
+    closePopUp(activePopUp);
   };
 }
 
@@ -40,9 +41,7 @@ function closeByKey(popUp, evt) {
 function openPopUp(popUp, object) {
   popUp.classList.add('form-container_opened');
 
-  page.addEventListener('keydown', (evt) => {
-    closeByKey(popUp, evt);
-  });
+  page.addEventListener('keydown', closeByKey);
 
   const inputList = Array.from(popUp.querySelectorAll(object.inputSelector));
   const buttonElement = popUp.querySelector(object.submitButtonSelector);
@@ -63,9 +62,8 @@ function openPopUp(popUp, object) {
 
 // Закрыть PopUp
 export function closePopUp(popUp) {
-  page.removeEventListener('keydown', (evt) => {
-    closeByKey(popUp, evt);
-  });
+  page.removeEventListener('keydown', closeByKey);
+
   popUp.classList.remove('form-container_opened');
 };
 
