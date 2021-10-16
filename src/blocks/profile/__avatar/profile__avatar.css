@@ -5,4 +5,14 @@
 
     border-radius: 100%;
 
+    object-fit: cover;
+
+}
+
+.profile__avatar:hover {
+
+    opacity: .3;
+    transition-duration: .7s;
+    cursor: pointer;
+
 }

@@ -3,6 +3,9 @@
     min-width: 22px;
     min-height: 19px;
 
+    position: relative;
+    top: -7px;
+
     background: transparent;
     border: 0;
 

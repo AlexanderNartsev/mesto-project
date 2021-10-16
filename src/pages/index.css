@@ -26,6 +26,7 @@
 @import url(../blocks/element/__label/element__label.css);
 @import url(../blocks/element/__like/element__like.css);
 @import url(../blocks/element/__like/_on/element__like_on.css);
+@import url(../blocks/element/__like-counter/element__like-counter.css);
 
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);

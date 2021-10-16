@@ -52,6 +52,19 @@
         </div>
     </div>
 
+    <div class="form-container">
+        <form class="form avatar-form" name="avatar-form" action="#" novalidate>
+            <h2 class="form__header">Обновить аватар</h2>
+            <input class="form__item" name="url" type="url" placeholder="Ссылка на картинку" required>
+            <span class="error url-error"></span>
+            <button class="button button_type_save" type="submit" value="Создать">Сохранить</button>
+            <button class="button button_type_close" type="button">
+                <img src="<%=require('./images/Close.svg')%>" alt="Кнопка Закрыть"
+                    class="button__icon button__icon_el_close">
+            </button>
+        </form>
+    </div>
+
     <header class="header page__block">
         <img src="<%=require('./images/logo-mesto.svg')%>" alt="Логотип проекта" class="header__logo">
     </header>
@@ -92,7 +105,9 @@
             <img src="" alt="Фото Карачаевск" class="element__image">
             <div class="element__group">
                 <p class="element__label"></p>
-                <button type="button" class="button element__like"></button>
+                <button type="button" class="button element__like">
+                    <span class="element__like-counter">0</span>
+                </button>
             </div>
         </div>
     </template>
