@@ -1,66 +1,87 @@
-import { putLike, deleteOwnersCard, postNewCard, deleteLike, getProfileInfo } from "./api.js";
-import { openImage, page, popUpNewPlace, closePopUp, popUpNewPlaceContainer, profileName, profileActivityType, profileAvatar } from "./modal.js";
+import { putLike, deleteOwnersCard, postNewCard, deleteLike } from "./api.js";
+import { openImage, page, popUpNewPlace, closePopUp, popUpNewPlaceContainer, renderLoading } from "./modal.js";
 
 export const cardsArea = page.querySelector('.elements');
 
 // Сформировать карточку (без добавления на страницу)
-export function createCard(cardData) {
+export function createCard(cardData, profileId, cardpreId) {
   const cardTemplate = page.querySelector('#element-template').content;
   const card = cardTemplate.querySelector('.element').cloneNode(true);
   const cardImage = card.querySelector('.element__image');
   const cardLabel = card.querySelector('.element__label');
   const cardLikeCounter = card.querySelector('.element__like-counter');
+  let cardId = '';
 
-  const cardId = cardData._id;
+  if (cardData._id) {
+    cardId = cardData._id;
+  } else {
+    cardId = cardpreId
+  }
 
   cardImage.setAttribute('src', cardData.link);
   cardImage.setAttribute('alt', cardData.name);
   cardLabel.textContent = cardData.name;
 
+  if (cardData.likes) {
+    cardLikeCounter.textContent = cardData.likes.length;
+  }
+
   // Добавить обработчик на лайк
   const likeButton = card.querySelector('.element__like');
 
-  getProfileInfo(profileName, profileActivityType, profileAvatar)
-    .then(data => {
-      if (cardData.likes) {
-        cardLikeCounter.textContent = cardData.likes.length;
-        cardData.likes.forEach(el => {
-          if (el._id === data._id) {
-            likeButton.classList.add("element__like_on");
-          }
-        });
+  if (profileId && cardData.likes) {
+    cardData.likes.forEach(el => {
+      if (el._id === profileId) {
+        likeButton.classList.add("element__like_on");
       }
+    });
 
-      if (!cardData.owner || cardData.owner._id === data._id) {
-        // Добавить обработчик на удаление
+  }
 
-        const deleteButton = card.querySelector('.element__delete');
+  if (!cardData.owner || cardData.owner._id === profileId) {
 
-        function deleteCard(event) {
+    // Добавить обработчик на удаление
+    const deleteButton = card.querySelector('.element__delete');
 
+    function deleteCard(event) {
+
+      deleteOwnersCard(cardId)
+        .then(() => {
           const card = event.target.closest('.element');
-          card.remove();
-          deleteOwnersCard(cardId);
+          card.remove()
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
-        }
+    }
 
-        deleteButton.style.display = 'block';
-        deleteButton.addEventListener('click', deleteCard);
+    deleteButton.style.display = 'block';
+    deleteButton.addEventListener('click', deleteCard);
 
-      }
-    })
+  }
 
   // Добавить уже установленные лайки
 
   function like() {
 
     if (!likeButton.classList.contains("element__like_on")) {
-      putLike(cardId);
-      cardLikeCounter.textContent++;
+      putLike(cardId)
+        .then(() => {
+          cardLikeCounter.textContent++;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
     }
     else {
-      deleteLike(cardId);
-      cardLikeCounter.textContent--;
+      deleteLike(cardId)
+        .then(() => {
+          cardLikeCounter.textContent--;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
     }
 
     likeButton.classList.toggle("element__like_on");
@@ -79,8 +100,8 @@ export function createCard(cardData) {
 };
 
 // Добавить карточку
-export function addCard(cardData, cardsArea) {
-  const card = createCard(cardData);
+export function addCard(cardData, cardsArea, profileId, cardpreId) {
+  const card = createCard(cardData, profileId, cardpreId);
   cardsArea.prepend(card);
 }
 
@@ -93,11 +114,24 @@ export function createCardHandle(event) {
   const name = popUpNewPlace.querySelector('.form__item[name=name]').value;
   const link = popUpNewPlace.querySelector('.form__item[name=url]').value;
 
-  postNewCard(name, link);
+  const button = popUpNewPlace.querySelector('.button_type_save')
+  renderLoading(true, button)
 
-  addCard({ name, link }, cardsArea);
+  postNewCard(name, link)
 
-  closePopUp(popUpNewPlaceContainer);
-  popUpNewPlace.reset();
+    .then(
+      data => {
 
+        const cardpreId = data._id
+        addCard({ name, link }, cardsArea, {}, cardpreId);
+
+        closePopUp(popUpNewPlaceContainer);
+        popUpNewPlace.reset();
+      })
+    .catch((err) => {
+      console.log(err); // выводим ошибку в консоль
+    })
+    .finally(() => {
+      renderLoading(false, button, 'Создать')
+    })
 }

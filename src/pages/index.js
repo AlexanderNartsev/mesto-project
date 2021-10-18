@@ -1,6 +1,6 @@
 import './index.css';
-import { cardsArea, createCardHandle } from '../components/card';
-import { buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, openPopUpProfile, openPopupAddPlace, popUpProfile, submitFormProfile, popUpNewPlace, page, popUpProfileContainer, popUpNewPlaceContainer, popUpImageContainer, closePopUp, buttonClosePopUpNewPlace, buttonClosePopUpProfile, buttonClosePopUpImage, closeByOverlayOrButton, profileName, profileActivityType, profileAvatar, buttonOpenPopUpAvatar, openPopUpAvatar, popUpAvatarContainer, buttonClosePopUpAvatar, popUpAvatar, submitAvatar } from '../components/modal.js';
+import { addCard, cardsArea, createCardHandle, getLikes } from '../components/card';
+import { buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, openPopUpProfile, openPopupAddPlace, popUpProfile, submitFormProfile, popUpNewPlace, popUpProfileContainer, popUpNewPlaceContainer, popUpImageContainer, buttonClosePopUpNewPlace, buttonClosePopUpProfile, buttonClosePopUpImage, closeByOverlayOrButton, buttonOpenPopUpAvatar, openPopUpAvatar, popUpAvatarContainer, buttonClosePopUpAvatar, popUpAvatar, submitAvatar, profileName, profileActivityType, profileAvatar } from '../components/modal.js';
 import { enableValidation, validationObject } from '../components/validate.js';
 import { getCards, getProfileInfo } from '../components/api';
 
@@ -14,30 +14,53 @@ popUpAvatar.addEventListener('submit', submitAvatar);
 
 popUpProfileContainer.addEventListener('click', (evt) => {
 
-  closeByOverlayOrButton(evt, popUpProfileContainer, buttonClosePopUpProfile)
+  closeByOverlayOrButton(evt, popUpProfileContainer)
 
 });
 
 popUpNewPlaceContainer.addEventListener('click', (evt) => {
 
-  closeByOverlayOrButton(evt, popUpNewPlaceContainer, buttonClosePopUpNewPlace)
+  closeByOverlayOrButton(evt, popUpNewPlaceContainer)
 
 });
 
 popUpImageContainer.addEventListener('click', (evt) => {
 
-  closeByOverlayOrButton(evt, popUpImageContainer, buttonClosePopUpImage)
+  closeByOverlayOrButton(evt, popUpImageContainer)
 
 });
 
 popUpAvatarContainer.addEventListener('click', (evt) => {
 
-  closeByOverlayOrButton(evt, popUpAvatarContainer, buttonClosePopUpAvatar)
+  closeByOverlayOrButton(evt, popUpAvatarContainer)
 
 });
 
-getProfileInfo(profileName, profileActivityType, profileAvatar);
+Promise.all([
+  getProfileInfo(),
+  getCards()
+])
+  .then((values) => {
 
-getCards(cardsArea);
+    profileName.textContent = values[0].name;
+    profileActivityType.textContent = values[0].about;
+    profileAvatar.setAttribute('src', values[0].avatar);
+
+    return values
+
+  })
+  .then((values) => {
+    const profileId = values[0]._id;
+
+    values[1].forEach(cardData => {
+      addCard(cardData, cardsArea, profileId);
+    })
+
+    return values
+
+  })
+  .catch((err) => {
+    console.log(err);
+  })
 
 enableValidation(validationObject);

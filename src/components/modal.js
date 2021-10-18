@@ -1,5 +1,5 @@
 import { patchAvatar, patchProfileInfo } from './api.js';
-import { validationObject, toggleButtonState, isValid } from './validate.js';
+import { validationObject, toggleButtonState, isValid, preventValidation } from './validate.js';
 
 // modal
 export const page = document.querySelector('.page');
@@ -36,43 +36,30 @@ export const profileNameInput = popUpProfile.querySelector('.form__item[name=nam
 export const profileActivityTypeInput = popUpProfile.querySelector('.form__item[name=activity-type]');
 export const profileAvatarInput = popUpAvatar.querySelector('.form__item[name=url]');
 
+// Закрыть PopUp
+export function closePopUp(popUp) {
+
+  page.removeEventListener('keydown', closeByKey);
+  popUp.classList.remove('form-container_opened');
+
+};
+
 //Закрыть клавишей
 function closeByKey(evt) {
-  const activePopUp = page.querySelector('.form-container_opened');
   if (evt.key === 'Escape') {
+    const activePopUp = page.querySelector('.form-container_opened');
     closePopUp(activePopUp);
   };
 }
 
 // Открыть PopUp
 function openPopUp(popUp, object) {
+
   popUp.classList.add('form-container_opened');
-
   page.addEventListener('keydown', closeByKey);
-
-  const inputList = Array.from(popUp.querySelectorAll(object.inputSelector));
-  const buttonElement = popUp.querySelector(object.submitButtonSelector);
-
-  if (inputList) {
-    inputList.forEach((inputEl) => {
-      if (inputEl.value) {
-        isValid(popUp, inputEl, object);
-      }
-    });
-  }
-
-  if (buttonElement) {
-    toggleButtonState(inputList, buttonElement, object);
-  }
+  preventValidation(popUp, object);
 
 }
-
-// Закрыть PopUp
-export function closePopUp(popUp) {
-  page.removeEventListener('keydown', closeByKey);
-
-  popUp.classList.remove('form-container_opened');
-};
 
 // Открыть модальное окно "Редактировать профиль"
 export function openPopUpProfile() {
@@ -84,19 +71,45 @@ export function openPopUpProfile() {
   openPopUp(popUpProfileContainer, validationObject);
 }
 
+export function renderLoading(isLoading, button, text) {
+
+  const loadingText = 'Сохранение...'
+
+  if (isLoading) {
+    button.textContent = loadingText;
+  }
+  else {
+    button.textContent = text;
+  }
+}
+
 // Сохранение данных профиля
 export function submitFormProfile(event) {
   // Отключить стандартное поведение
   event.preventDefault();
 
-  // Присвоить введённые значения на форме полям профиля
-  profileName.textContent = profileNameInput.value;
-  profileActivityType.textContent = profileActivityTypeInput.value;
+  const Name = profileNameInput.value
+  const Activity = profileActivityTypeInput.value
 
-  patchProfileInfo(profileNameInput, profileActivityTypeInput)
+  const button = popUpProfile.querySelector('.button_type_save')
+  renderLoading(true, button)
 
-  // Закрыть модальное окно
-  closePopUp(popUp);
+  patchProfileInfo(Name, Activity)
+    .then(() => {
+      // Присвоить введённые значения на форме полям профиля
+      profileName.textContent = Name;
+      profileActivityType.textContent = Activity;
+
+      // Закрыть модальное окно
+      closePopUp(popUpProfileContainer);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      renderLoading(false, button, 'Сохранить');
+    })
+
 }
 
 //Сохранение аватара
@@ -104,13 +117,22 @@ export function submitAvatar(event) {
   // Отключить стандартное поведение
   event.preventDefault();
 
-  // Присвоить введённые значения на форме полям профиля
-  profileAvatar.setAttribute('src', profileAvatarInput.value);
+  const button = popUpAvatar.querySelector('.button_type_save')
+  renderLoading(true, button)
 
-  patchAvatar(profileAvatarInput.value);
+  patchAvatar(profileAvatarInput.value)
+    .then(() => {
+      // Присвоить введённые значения на форме полям профиля
+      profileAvatar.setAttribute('src', profileAvatarInput.value);
 
-  // Закрыть модальное окно
-  closePopUp(popUpAvatarContainer);
+      // Закрыть модальное окно
+      closePopUp(popUpAvatarContainer);
+      popUpAvatar.reset();
+    })
+    .finally(() => {
+      renderLoading(false, button, 'Сохранить');
+    })
+
 }
 
 // Открыть модальное окно "Добавить место"
@@ -127,6 +149,7 @@ export function openImage(event) {
   const imageName = event.target.getAttribute('alt');
 
   popUpImageContainer.querySelector('.image-popup__image').setAttribute('src', imageUrl);
+  popUpImageContainer.querySelector('.image-popup__image').setAttribute('alt', imageName);
   popUpImageContainer.querySelector('.image-popup__name').textContent = imageName;
 
 }
@@ -137,8 +160,11 @@ export function openPopUpAvatar() {
 }
 
 // Закрыть поп-ап
-export function closeByOverlayOrButton(evt, popUp, button) {
-  if (evt.target === popUp || evt.target.parentElement === button) {
+export function closeByOverlayOrButton(evt, popUp) {
+
+  if (evt.target === evt.currentTarget || evt.target.parentElement.classList.contains('button_type_close')) {
     closePopUp(popUp);
   };
-};
+
+}
+
