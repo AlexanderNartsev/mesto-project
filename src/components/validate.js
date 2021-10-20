@@ -93,17 +93,15 @@ export function enableValidation(object) {
 }
 
 // Валидация при открытии формы
-export function preventValidation(popUp, object) {
+export function resetValidation(popUp, object) {
   const inputList = Array.from(popUp.querySelectorAll(object.inputSelector));
   const buttonElement = popUp.querySelector(object.submitButtonSelector);
 
-  if (inputList) {
-    inputList.forEach((inputEl) => {
-      if (inputEl.value) {
-        isValid(popUp, inputEl, object);
-      }
-    });
-  }
+  inputList.forEach((inputEl) => {
+    if (inputEl.value) {
+      isValid(popUp, inputEl, object);
+    }
+  })
 
   if (buttonElement) {
     toggleButtonState(inputList, buttonElement, object);

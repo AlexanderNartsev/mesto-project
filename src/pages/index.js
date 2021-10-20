@@ -1,8 +1,10 @@
 import './index.css';
-import { addCard, cardsArea, createCardHandle, getLikes } from '../components/card';
-import { buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, openPopUpProfile, openPopupAddPlace, popUpProfile, submitFormProfile, popUpNewPlace, popUpProfileContainer, popUpNewPlaceContainer, popUpImageContainer, buttonClosePopUpNewPlace, buttonClosePopUpProfile, buttonClosePopUpImage, closeByOverlayOrButton, buttonOpenPopUpAvatar, openPopUpAvatar, popUpAvatarContainer, buttonClosePopUpAvatar, popUpAvatar, submitAvatar, profileName, profileActivityType, profileAvatar } from '../components/modal.js';
+import { addCard, cardsArea, createCardHandle } from '../components/card';
+import { buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, openPopUpProfile, openPopupAddPlace, popUpProfile, submitFormProfile, popUpNewPlace, popUpProfileContainer, popUpNewPlaceContainer, popUpImageContainer, closeByOverlayOrButton, buttonOpenPopUpAvatar, openPopUpAvatar, popUpAvatarContainer, popUpAvatar, submitAvatar, profileName, profileActivityType, profileAvatar } from '../components/modal.js';
 import { enableValidation, validationObject } from '../components/validate.js';
 import { getCards, getProfileInfo } from '../components/api';
+
+export let profileId = '';
 
 // Установка слушателей на элементы
 buttonOpenPopUpProfile.addEventListener('click', openPopUpProfile);
@@ -42,15 +44,12 @@ Promise.all([
 ])
   .then((values) => {
 
+    profileId = values[0]._id;
+
     profileName.textContent = values[0].name;
     profileActivityType.textContent = values[0].about;
     profileAvatar.setAttribute('src', values[0].avatar);
-
-    return values
-
-  })
-  .then((values) => {
-    const profileId = values[0]._id;
+    profileAvatar.setAttribute('alt', values[0].name);
 
     values[1].forEach(cardData => {
       addCard(cardData, cardsArea, profileId);

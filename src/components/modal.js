@@ -1,5 +1,5 @@
 import { patchAvatar, patchProfileInfo } from './api.js';
-import { validationObject, toggleButtonState, isValid, preventValidation } from './validate.js';
+import { validationObject, resetValidation } from './validate.js';
 
 // modal
 export const page = document.querySelector('.page');
@@ -57,7 +57,6 @@ function openPopUp(popUp, object) {
 
   popUp.classList.add('form-container_opened');
   page.addEventListener('keydown', closeByKey);
-  preventValidation(popUp, object);
 
 }
 
@@ -69,6 +68,7 @@ export function openPopUpProfile() {
   profileActivityTypeInput.value = profileActivityType.textContent;
 
   openPopUp(popUpProfileContainer, validationObject);
+  resetValidation(popUpProfileContainer, validationObject);
 }
 
 export function renderLoading(isLoading, button, text) {
@@ -88,17 +88,17 @@ export function submitFormProfile(event) {
   // Отключить стандартное поведение
   event.preventDefault();
 
-  const Name = profileNameInput.value
-  const Activity = profileActivityTypeInput.value
+  const name = profileNameInput.value
+  const activity = profileActivityTypeInput.value
 
   const button = popUpProfile.querySelector('.button_type_save')
   renderLoading(true, button)
 
-  patchProfileInfo(Name, Activity)
+  patchProfileInfo(name, activity)
     .then(() => {
       // Присвоить введённые значения на форме полям профиля
-      profileName.textContent = Name;
-      profileActivityType.textContent = Activity;
+      profileName.textContent = name;
+      profileActivityType.textContent = activity;
 
       // Закрыть модальное окно
       closePopUp(popUpProfileContainer);
@@ -129,6 +129,9 @@ export function submitAvatar(event) {
       closePopUp(popUpAvatarContainer);
       popUpAvatar.reset();
     })
+    .catch((err) => {
+      console.log(err);
+    })
     .finally(() => {
       renderLoading(false, button, 'Сохранить');
     })
@@ -138,6 +141,7 @@ export function submitAvatar(event) {
 // Открыть модальное окно "Добавить место"
 export function openPopupAddPlace() {
   openPopUp(popUpNewPlaceContainer, validationObject);
+  resetValidation(popUpNewPlaceContainer, validationObject);
 }
 
 // Открыть модальное окно с изображением
@@ -157,6 +161,7 @@ export function openImage(event) {
 // Открыть модальное окно "Изменить аватар"
 export function openPopUpAvatar() {
   openPopUp(popUpAvatarContainer, validationObject);
+  resetValidation(popUpAvatarContainer, validationObject);
 }
 
 // Закрыть поп-ап
