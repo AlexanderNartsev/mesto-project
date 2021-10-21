@@ -1,102 +1,96 @@
-const apiConfig = {
-
-  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-2',
-  headers: {
-    authorization: '24147bd1-3537-4148-b1a3-03fa93402c41',
-    'Content-Type': 'application/json'
+class Api {
+  constructor(options) {
+    this._url = options.baseUrl;
+    this._headers = options.headers;
   }
 
-};
+  // Загрузить начальные карточки
+  getInitialCards() {
 
-// Загрузить данные профиля
-export const getProfileInfo = () => {
-
-  return fetch(`${apiConfig.baseUrl}/users/me`, {
-    headers: apiConfig.headers
-  })
-    .then(res => {
-      if (res.ok) {
-        return res.json()
-      }
-      return promise.reject(`Ошибка: ${res.status}`);
+    return fetch(`${this._url}/cards`, {
+      headers: this._headers
     })
-}
+      .then(res => {
+        if (res.ok) {
+          return res.json()
+        }
+        return promise.reject(`Ошибка: ${res.status}`);
+      })
+  }
 
-// Загрузить начальные карточки
-export function getCards() {
+  // Загрузить данные профиля
+  getProfileInfo() {
 
-  return fetch(`${apiConfig.baseUrl}/cards`, {
-    headers: apiConfig.headers
-  })
-    .then(res => {
-      if (res.ok) {
-        return res.json()
-      }
-      return promise.reject(`Ошибка: ${res.status}`);
+    return fetch(`${this._url}/users/me`, {
+      headers: this._headers
     })
-}
+      .then(res => {
+        if (res.ok) {
+          return res.json()
+        }
+        return promise.reject(`Ошибка: ${res.status}`);
+      })
+  }
 
-// Изменить данные профиля
-export function patchProfileInfo(name, about) {
+  // Изменить данные профиля
+  patchProfileInfo(name, about) {
 
-  return fetch(`${apiConfig.baseUrl}/users/me`, {
-    method: 'PATCH',
-    headers: apiConfig.headers,
-    body: JSON.stringify({
-      name,
-      about
+    return fetch(`${this._url}/users/me`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        name,
+        about
+      })
     })
-  })
-    .then(res => {
-      if (res.ok) {
-        return res.json()
-      }
-      return promise.reject(`Ошибка: ${res.status}`);
+      .then(res => {
+        if (res.ok) {
+          return res.json()
+        }
+        return promise.reject(`Ошибка: ${res.status}`);
+      })
+  }
+
+  // Добавить карточку
+  postNewCard(name, link) {
+
+    return fetch(`${this._url}/cards`, {
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify({
+        name,
+        link
+      })
     })
-}
+      .then(res => {
+        if (res.ok) {
+          return res.json()
+        }
+        return promise.reject(`Ошибка: ${res.status}`);
+      })
+  }
 
-// Добавить карточку
-export function postNewCard(name, link) {
+  //Удалить карточку
+  deleteOwnersCard(cardId) {
 
-  return fetch(`${apiConfig.baseUrl}/cards`, {
-    method: 'POST',
-    headers: apiConfig.headers,
-    body: JSON.stringify({
-      name,
-      link
+    return fetch(`${this._url}/cards/${cardId}`, {
+      method: 'DELETE',
+      headers: this._headers
     })
-  })
-    .then(res => {
-      if (res.ok) {
-        return res.json()
-      }
-      return promise.reject(`Ошибка: ${res.status}`);
-    })
+      .then(res => {
+        if (res.ok) {
+          return res.json()
+        }
+        return promise.reject(`Ошибка: ${res.status}`);
+      })
+  }
 
-}
+  // Установить лайк
+  putLike(cardId) {
 
-// Удалить карточку
-export function deleteOwnersCard(cardId) {
-
-  return fetch(`${apiConfig.baseUrl}/cards/${cardId}`, {
-    method: 'DELETE',
-    headers: apiConfig.headers
-  })
-    .then(res => {
-      if (res.ok) {
-        return res.json()
-      }
-      return promise.reject(`Ошибка: ${res.status}`);
-    })
-
-}
-
-// Установить лайк
-export function putLike(cardId) {
-
-  return fetch(`${apiConfig.baseUrl}/cards/likes/${cardId}`, {
+  return fetch(`${this._url}/cards/likes/${cardId}`, {
     method: 'PUT',
-    headers: apiConfig.headers
+    headers: this._headers
   })
     .then(res => {
       if (res.ok) {
@@ -104,15 +98,14 @@ export function putLike(cardId) {
       }
       return promise.reject(`Ошибка: ${res.status}`);
     })
+  }
 
-}
+  // Cнять лайк
+  deleteLike(cardId) {
 
-// Cнять лайк
-export function deleteLike(cardId) {
-
-  return fetch(`${apiConfig.baseUrl}/cards/likes/${cardId}`, {
+  return fetch(`${this._url}/cards/likes/${cardId}`, {
     method: 'DELETE',
-    headers: apiConfig.headers
+    headers: this._headers
   })
     .then(res => {
       if (res.ok) {
@@ -120,15 +113,14 @@ export function deleteLike(cardId) {
       }
       return promise.reject(`Ошибка: ${res.status}`);
     })
+  }
 
-}
+  // Обновить аватар
+  patchAvatar(avatarLink) {
 
-// Обновить аватар
-export function patchAvatar(avatarLink) {
-
-  return fetch(`${apiConfig.baseUrl}/users/me/avatar`, {
+  return fetch(`${this._url}/users/me/avatar`, {
     method: 'PATCH',
-    headers: apiConfig.headers,
+    headers: this._headers,
     body: JSON.stringify({
       avatar: avatarLink
     })
@@ -139,4 +131,13 @@ export function patchAvatar(avatarLink) {
       }
       return promise.reject(`Ошибка: ${res.status}`);
     })
+  }
 }
+
+const api = new Api({
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-2',
+  headers: {
+    authorization: '24147bd1-3537-4148-b1a3-03fa93402c41',
+    'Content-Type': 'application/json'
+  }
+}); 
