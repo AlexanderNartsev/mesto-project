@@ -1,5 +1,5 @@
 import { putLike, deleteOwnersCard, postNewCard, deleteLike } from "./api.js";
-import { openImage, page, popUpNewPlace, closePopUp, popUpNewPlaceContainer, renderLoading } from "./modal.js";
+import { openImage, page, formNewPlace, closePopUp, popUpNewPlaceContainer, renderLoading } from "./modal.js";
 import { profileId } from "../pages/index"
 
 export const cardsArea = page.querySelector('.elements');
@@ -103,10 +103,10 @@ export function createCardHandle(event) {
   // Отключить стандартное поведение
   event.preventDefault();
   // Определить значения полей формы
-  const name = popUpNewPlace.querySelector('.form__item[name=name]').value;
-  const link = popUpNewPlace.querySelector('.form__item[name=url]').value;
+  const name = formNewPlace.querySelector('.form__item[name=name]').value;
+  const link = formNewPlace.querySelector('.form__item[name=url]').value;
 
-  const button = popUpNewPlace.querySelector('.button_type_save')
+  const button = formNewPlace.querySelector('.button_type_save')
   renderLoading(true, button)
 
   postNewCard(name, link)
@@ -115,7 +115,7 @@ export function createCardHandle(event) {
       data => {
         addCard(data, cardsArea, profileId);
         closePopUp(popUpNewPlaceContainer);
-        popUpNewPlace.reset();
+        formNewPlace.reset();
       })
     .catch((err) => {
       console.log(err);

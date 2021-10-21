@@ -1,6 +1,6 @@
 import './index.css';
 import { addCard, cardsArea, createCardHandle } from '../components/card';
-import { buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, openPopUpProfile, openPopupAddPlace, popUpProfile, submitFormProfile, popUpNewPlace, popUpProfileContainer, popUpNewPlaceContainer, popUpImageContainer, closeByOverlayOrButton, buttonOpenPopUpAvatar, openPopUpAvatar, popUpAvatarContainer, popUpAvatar, submitAvatar, profileName, profileActivityType, profileAvatar } from '../components/modal.js';
+import { buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, openPopUpProfile, openPopupAddPlace, formProfile, submitFormProfile, formNewPlace, popUpProfileContainer, popUpNewPlaceContainer, popUpImageContainer, closeByOverlayOrButton, buttonOpenPopUpAvatar, openPopUpAvatar, popUpAvatarContainer, formAvatar, submitAvatar, profileName, profileActivityType, profileAvatar } from '../components/modal.js';
 import { enableValidation, validationObject } from '../components/validate.js';
 import { getCards, getProfileInfo } from '../components/api';
 
@@ -10,9 +10,9 @@ export let profileId = '';
 buttonOpenPopUpProfile.addEventListener('click', openPopUpProfile);
 buttonOpenPopUpNewPlace.addEventListener('click', openPopupAddPlace);
 buttonOpenPopUpAvatar.addEventListener('click', openPopUpAvatar);
-popUpProfile.addEventListener('submit', submitFormProfile);
-popUpNewPlace.addEventListener('submit', createCardHandle);
-popUpAvatar.addEventListener('submit', submitAvatar);
+formProfile.addEventListener('submit', submitFormProfile);
+formNewPlace.addEventListener('submit', createCardHandle);
+formAvatar.addEventListener('submit', submitAvatar);
 
 popUpProfileContainer.addEventListener('click', (evt) => {
 
@@ -54,9 +54,6 @@ Promise.all([
     values[1].forEach(cardData => {
       addCard(cardData, cardsArea, profileId);
     })
-
-    return values
-
   })
   .catch((err) => {
     console.log(err);

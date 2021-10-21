@@ -4,22 +4,22 @@ import { validationObject, resetValidation } from './validate.js';
 // modal
 export const page = document.querySelector('.page');
 // Формы
-export const popUpProfile = page.querySelector('.edit-form');
-export const popUpNewPlace = page.querySelector('.add-form');
-export const popUpAvatar = page.querySelector('.avatar-form');
+export const formProfile = page.querySelector('.edit-form');
+export const formNewPlace = page.querySelector('.add-form');
+export const formAvatar = page.querySelector('.avatar-form');
 const popUpImage = page.querySelector('.image-popup');
 
 // Кнопки закрытия форм
-export const buttonClosePopUpProfile = popUpProfile.querySelector('.button_type_close');
-export const buttonClosePopUpNewPlace = popUpNewPlace.querySelector('.button_type_close');
+export const buttonClosePopUpProfile = formProfile.querySelector('.button_type_close');
+export const buttonClosePopUpNewPlace = formNewPlace.querySelector('.button_type_close');
 export const buttonClosePopUpImage = popUpImage.querySelector('.button_type_close');
-export const buttonClosePopUpAvatar = popUpAvatar.querySelector('.button_type_close');
+export const buttonClosePopUpAvatar = formAvatar.querySelector('.button_type_close');
 
 // Контейнеры форм
-export const popUpProfileContainer = popUpProfile.closest('.form-container');
-export const popUpNewPlaceContainer = popUpNewPlace.closest('.form-container');
+export const popUpProfileContainer = formProfile.closest('.form-container');
+export const popUpNewPlaceContainer = formNewPlace.closest('.form-container');
 export const popUpImageContainer = popUpImage.closest('.form-container');
-export const popUpAvatarContainer = popUpAvatar.closest('.form-container');
+export const popUpAvatarContainer = formAvatar.closest('.form-container');
 
 // Кнопки страницы
 export const buttonOpenPopUpProfile = page.querySelector('.button_type_edit');
@@ -32,9 +32,9 @@ export const profileActivityType = page.querySelector('.profile__text');
 export const profileAvatar = page.querySelector('.profile__avatar');
 
 // Поля ввода форм
-export const profileNameInput = popUpProfile.querySelector('.form__item[name=name]');
-export const profileActivityTypeInput = popUpProfile.querySelector('.form__item[name=activity-type]');
-export const profileAvatarInput = popUpAvatar.querySelector('.form__item[name=url]');
+export const profileNameInput = formProfile.querySelector('.form__item[name=name]');
+export const profileActivityTypeInput = formProfile.querySelector('.form__item[name=activity-type]');
+export const profileAvatarInput = formAvatar.querySelector('.form__item[name=url]');
 
 // Закрыть PopUp
 export function closePopUp(popUp) {
@@ -91,7 +91,7 @@ export function submitFormProfile(event) {
   const name = profileNameInput.value
   const activity = profileActivityTypeInput.value
 
-  const button = popUpProfile.querySelector('.button_type_save')
+  const button = formProfile.querySelector('.button_type_save')
   renderLoading(true, button)
 
   patchProfileInfo(name, activity)
@@ -117,7 +117,7 @@ export function submitAvatar(event) {
   // Отключить стандартное поведение
   event.preventDefault();
 
-  const button = popUpAvatar.querySelector('.button_type_save')
+  const button = formAvatar.querySelector('.button_type_save')
   renderLoading(true, button)
 
   patchAvatar(profileAvatarInput.value)
@@ -127,7 +127,7 @@ export function submitAvatar(event) {
 
       // Закрыть модальное окно
       closePopUp(popUpAvatarContainer);
-      popUpAvatar.reset();
+      formAvatar.reset();
     })
     .catch((err) => {
       console.log(err);

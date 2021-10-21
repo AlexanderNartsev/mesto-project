@@ -103,7 +103,6 @@ export function resetValidation(popUp, object) {
     }
   })
 
-  if (buttonElement) {
-    toggleButtonState(inputList, buttonElement, object);
-  }
+  toggleButtonState(inputList, buttonElement, object);
+
 }
