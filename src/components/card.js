@@ -53,7 +53,7 @@ export class Card {
 
   // Активация кнопки лайка если карточка была лайкнута пользователем
   _setLikeActive() {
-    data.likes.forEach(like => {
+    this._likes.forEach(like => {
       if (like._id === profileId) {
         this._likeButton.classList.add("element__like_on");
       }
