@@ -1,27 +1,66 @@
 import Section from '../components/Section.js';
 import { Card } from '../components/Card';
-import Api from '../components/api';
+import Api from '../components/Api';
 import { cardListSection } from '../components/utils/constants.js';
+import { UserInfo } from '../components/UserInfo';
 
 Promise.all([
-  getProfileInfo(),
+  Api.getProfileInfo(),
   Api.getInitialCards()
 ])
   .then((values) => {
+  // Обработка карточек
   const cardsList = new Section({
     data: values[1],
     renderer: (item) => {
-      const message = new Card(item, '.element-template');
+      const card = new Card(
+        item, 
+        '.element-template',
+        {
+          handleLikeClick: (card) => {
+            if (!card._likeButton.classList.contains("element__like_on")) {
+              Api.putLike(card._cardId)
+                .then((dataCard) => {
+                  card.setLikesInfo(dataCard);
+                })
+                .catch((err) => {
+                  console.log(err);
+                })
+            }
+            else {
+              Api.deleteLike(card._cardId)
+                .then((dataCard) => {
+                  card.setLikesInfo(dataCard);
+                })
+                .catch((err) => {
+                  console.log(err);
+                })
+            }
+          },
+          deleteCard: (card) => {
+            Api.deleteOwnersCard(card._cardId)
+            .then(() => {
+              card.deleteCard();
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+          }
+        }
+        );
 
-      const messageElement = message.generate();
+      const cardElement = card.generate();
 
-      cardsList.setItem(messageElement);
+      cardsList.setItem(cardElement);
       },
   },
     cardListSection
-);
+  );
   // отрисовка карточек
   cardsList.renderItems();
+
+  // Обработка данных профиля
+  const userInfo = new UserInfo();
   })
   .catch((err) => {
     console.log(err);
@@ -35,14 +74,12 @@ Promise.all([
 
 
 
-
-
-
 import './index.css';
 import { addCard, cardsArea, createCardHandle } from '../components/Card';
 import { buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, openPopUpProfile, openPopupAddPlace, formProfile, submitFormProfile, formNewPlace, popUpProfileContainer, popUpNewPlaceContainer, popUpImageContainer, closeByOverlayOrButton, buttonOpenPopUpAvatar, openPopUpAvatar, popUpAvatarContainer, formAvatar, submitAvatar, profileName, profileActivityType, profileAvatar } from '../components/modal.js';
 import { enableValidation, validationObject } from '../components/validate.js';
-import { getCards, getProfileInfo } from '../components/api';
+import { getCards, getProfileInfo } from '../components/Api';
+import { UserInfo } from '../components/UserInfo.js';
 
 export let profileId = '';
 

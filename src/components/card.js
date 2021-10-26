@@ -1,13 +1,14 @@
-import Api from './api.js';
 import { profileId } from "../pages/index.js";
 
 export class Card {
-  constructor(data, selector) {
+  constructor(data, selector, functions) {
     this._cardImage = data.link;
     this._cardName = data.name;
     this._cardId = data._id;
     this._likes = data.likes;
     this._selector = selector;
+    this._functions = functions;
+    this._handleLikeClick = functions.handleLikeClick();
     this._cardLikeCounter; // ?
     this._likeButton;
     this._deleteButton;
@@ -40,7 +41,7 @@ export class Card {
     }
     // Лайк карточки
     this._likeButton.addEventListener('click', () => {
-      this._like();
+      this._handleLikeClick();
     });
     // Открытие изображения
     this._placeImage.addEventListener('click', openImage);// Связать с PopupWithImage.js
@@ -67,42 +68,21 @@ export class Card {
     }
   }
 
-  // Удалить карточку
-  _deleteCard() {
-
-    Api.deleteOwnersCard(this._cardId)
-      .then(() => {
-        this._element.remove()
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
+  // Обновление отображения лайков карточки
+  _updateLikeView() {
+    card._cardLikeCounter.textContent = this._likes.length;
+    card._likeButton.classList.toggle("element__like_on");
   }
 
-  // Лайк карточки
-  _like() {
-    
-    if (!this._likeButton.classList.contains("element__like_on")) {
-      Api.putLike(this._cardId)
-        .then(() => {
-          this._cardLikeCounter.textContent++;
-          this._likeButton.classList.add("element__like_on");
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    }
-    else {
-      Api.deleteLike(this._cardId)
-        .then(() => {
-          this._cardLikeCounter.textContent--;
-          this._likeButton.classList.remove("element__like_on");
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    }
+  //Установить количество лайков карточки
+  setLikesInfo(dataCard) {
+    this._likes = dataCard.likes;
+    this._updateLikeView();
+  }
+
+  // Удалить карточку
+  deleteCard() {
+    this._element.remove();
   }
 
   // Запуск процесса создания карточки

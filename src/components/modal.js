@@ -1,4 +1,4 @@
-import { patchAvatar, patchProfileInfo } from './api.js';
+import { patchAvatar, patchProfileInfo } from './Api.js';
 import { validationObject, resetValidation } from './validate.js';
 
 // modal
