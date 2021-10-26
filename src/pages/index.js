@@ -1,25 +1,26 @@
 import Section from '../components/Section.js';
 import { Card } from '../components/Card';
-import Api from '../components/Api';
-import { cardListSection } from '../components/utils/constants.js';
+import { api } from '../components/Api';
+import { cardListSection, userNameSelector, userActivitySelector } from '../components/utils/constants.js';
 import { UserInfo } from '../components/UserInfo';
 
 Promise.all([
-  Api.getProfileInfo(),
-  Api.getInitialCards()
+  api.getProfileInfo(),
+  api.getInitialCards()
 ])
   .then((values) => {
   // Обработка карточек
   const cardsList = new Section({
-    data: values[1],
+    items: values[1],
     renderer: (item) => {
       const card = new Card(
         item, 
         '.element-template',
+        values[0]._id,
         {
           handleLikeClick: (card) => {
             if (!card._likeButton.classList.contains("element__like_on")) {
-              Api.putLike(card._cardId)
+              api.putLike(card._cardId)
                 .then((dataCard) => {
                   card.setLikesInfo(dataCard);
                 })
@@ -28,7 +29,7 @@ Promise.all([
                 })
             }
             else {
-              Api.deleteLike(card._cardId)
+              api.deleteLike(card._cardId)
                 .then((dataCard) => {
                   card.setLikesInfo(dataCard);
                 })
@@ -38,9 +39,9 @@ Promise.all([
             }
           },
           deleteCard: (card) => {
-            Api.deleteOwnersCard(card._cardId)
+            api.deleteOwnersCard(card._cardId)
             .then(() => {
-              card.deleteCard();
+              card.deleteCardElement();
             })
             .catch((err) => {
               console.log(err);
@@ -60,11 +61,26 @@ Promise.all([
   cardsList.renderItems();
 
   // Обработка данных профиля
-  const userInfo = new UserInfo();
+  const userInfo = new UserInfo(
+    {userNameSelector, userActivitySelector},
+    {
+      getUserInfoApi: () => {
+        api.getProfileInfo()
+          .then((profileData) => {
+            return profileData;
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+      },
+      // patchProfileInfoApi: (name, about) => {
+      //   Api.patchProfileInfo(name, about)
+
+      // }
+    }
+  );
   })
-  .catch((err) => {
-    console.log(err);
-  })
+  
 
 
 
@@ -115,25 +131,25 @@ popUpAvatarContainer.addEventListener('click', (evt) => {
 
 });
 
-Promise.all([
-  getProfileInfo(),
-  getCards()
-])
-  .then((values) => {
+// Promise.all([
+//   getProfileInfo(),
+//   getCards()
+// ])
+//   .then((values) => {
 
-    profileId = values[0]._id;
+//     profileId = values[0]._id;
 
-    profileName.textContent = values[0].name;
-    profileActivityType.textContent = values[0].about;
-    profileAvatar.setAttribute('src', values[0].avatar);
-    profileAvatar.setAttribute('alt', values[0].name);
+//     profileName.textContent = values[0].name;
+//     profileActivityType.textContent = values[0].about;
+//     profileAvatar.setAttribute('src', values[0].avatar);
+//     profileAvatar.setAttribute('alt', values[0].name);
 
-    values[1].forEach(cardData => {
-      addCard(cardData, cardsArea, profileId);
-    })
-  })
-  .catch((err) => {
-    console.log(err);
-  })
+//     values[1].forEach(cardData => {
+//       addCard(cardData, cardsArea, profileId);
+//     })
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   })
 
 enableValidation(validationObject);

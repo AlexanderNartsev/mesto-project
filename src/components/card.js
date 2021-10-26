@@ -1,14 +1,14 @@
-import { profileId } from "../pages/index.js";
-
 export class Card {
-  constructor(data, selector, functions) {
+  constructor(data, selector, profileId, functions) {
     this._cardImage = data.link;
     this._cardName = data.name;
     this._cardId = data._id;
     this._likes = data.likes;
     this._selector = selector;
     this._functions = functions;
+    this._profileId = profileId;
     this._handleLikeClick = functions.handleLikeClick();
+    this._deleteCard = functions.deleteCard();
     this._cardLikeCounter; // ?
     this._likeButton;
     this._deleteButton;
@@ -34,14 +34,14 @@ export class Card {
   // Установить слушатели событий
   _setEventListeners() {
     // Удаление карточки
-    if (this._cardId === profileId) {
+    if (this._cardId === this._profileId) {
       this._deleteButton.addEventListener('click', () => {
         this._deleteCard();
       });
     }
     // Лайк карточки
     this._likeButton.addEventListener('click', () => {
-      this._handleLikeClick();
+      this._handleLikeClick(this);
     });
     // Открытие изображения
     this._placeImage.addEventListener('click', openImage);// Связать с PopupWithImage.js
@@ -55,7 +55,7 @@ export class Card {
   // Активация кнопки лайка если карточка была лайкнута пользователем
   _setLikeActive() {
     this._likes.forEach(like => {
-      if (like._id === profileId) {
+      if (like._id === this._profileId) {
         this._likeButton.classList.add("element__like_on");
       }
     })
@@ -63,7 +63,7 @@ export class Card {
 
   // Отрисовка кнопки удаления если карточка была создана пользователем
   _setDeleteButtonActive() {
-    if (this._cardId === profileId) {
+    if (this._cardId === this._profileId) {
       this._deleteButton.style.display = 'block';
     }
   }
@@ -81,7 +81,7 @@ export class Card {
   }
 
   // Удалить карточку
-  deleteCard() {
+  deleteCardElement() {
     this._element.remove();
   }
 
@@ -195,7 +195,9 @@ export class Card {
 
 // };
 
-// Добавить карточку
+
+
+//Добавить карточку
 export function addCard(cardData, cardsArea, profileId) {
   const card = createCard(cardData, profileId);
   cardsArea.prepend(card);
