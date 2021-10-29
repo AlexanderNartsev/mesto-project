@@ -1,7 +1,7 @@
 import Section from '../components/Section.js';
 import { Card } from '../components/Card';
 import { api } from '../components/Api';
-import { cardListSection, userNameSelector, userActivitySelector } from '../components/utils/constants.js';
+import { cardListSection, userNameSelector, userActivitySelector, validationObject } from '../components/utils/constants.js';
 import { UserInfo } from '../components/UserInfo';
 
 Promise.all([
@@ -9,78 +9,78 @@ Promise.all([
   api.getInitialCards()
 ])
   .then((values) => {
-  // Обработка карточек
-  const cardsList = new Section({
-    items: values[1],
-    renderer: (item) => {
-      const card = new Card(
-        item, 
-        '.element-template',
-        values[0]._id,
-        {
-          handleLikeClick: (card) => {
-            if (!card._likeButton.classList.contains("element__like_on")) {
-              api.putLike(card._cardId)
-                .then((dataCard) => {
-                  card.setLikesInfo(dataCard);
+    // Обработка карточек
+    const cardsList = new Section({
+      items: values[1],
+      renderer: (item) => {
+        const card = new Card(
+          item,
+          '.element-template',
+          values[0]._id,
+          {
+            handleLikeClick: (card) => {
+              if (!card._likeButton.classList.contains("element__like_on")) {
+                api.putLike(card._cardId)
+                  .then((dataCard) => {
+                    card.setLikesInfo(dataCard);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  })
+              }
+              else {
+                api.deleteLike(card._cardId)
+                  .then((dataCard) => {
+                    card.setLikesInfo(dataCard);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  })
+              }
+            },
+            deleteCard: (card) => {
+              api.deleteOwnersCard(card._cardId)
+                .then(() => {
+                  card.deleteCardElement();
                 })
                 .catch((err) => {
                   console.log(err);
-                })
+                });
             }
-            else {
-              api.deleteLike(card._cardId)
-                .then((dataCard) => {
-                  card.setLikesInfo(dataCard);
-                })
-                .catch((err) => {
-                  console.log(err);
-                })
-            }
-          },
-          deleteCard: (card) => {
-            api.deleteOwnersCard(card._cardId)
-            .then(() => {
-              card.deleteCardElement();
+          }
+        );
+
+        const cardElement = card.generate();
+
+        cardsList.setItem(cardElement);
+      },
+    },
+      cardListSection
+    );
+    // отрисовка карточек
+    cardsList.renderItems();
+
+    // Обработка данных профиля
+    const userInfo = new UserInfo(
+      { userNameSelector, userActivitySelector },
+      {
+        getUserInfoApi: () => {
+          api.getProfileInfo()
+            .then((profileData) => {
+              return profileData;
             })
             .catch((err) => {
               console.log(err);
-            });
-          }
-        }
-        );
+            })
+        },
+        // patchProfileInfoApi: (name, about) => {
+        //   Api.patchProfileInfo(name, about)
 
-      const cardElement = card.generate();
-
-      cardsList.setItem(cardElement);
-      },
-  },
-    cardListSection
-  );
-  // отрисовка карточек
-  cardsList.renderItems();
-
-  // Обработка данных профиля
-  const userInfo = new UserInfo(
-    {userNameSelector, userActivitySelector},
-    {
-      getUserInfoApi: () => {
-        api.getProfileInfo()
-          .then((profileData) => {
-            return profileData;
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-      },
-      // patchProfileInfoApi: (name, about) => {
-      //   Api.patchProfileInfo(name, about)
-
-      // }
-    }
-  );
+        // }
+      }
+    );
   })
-  
+
 
 
 
@@ -93,9 +93,10 @@ Promise.all([
 import './index.css';
 import { addCard, cardsArea, createCardHandle } from '../components/Card';
 import { buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, openPopUpProfile, openPopupAddPlace, formProfile, submitFormProfile, formNewPlace, popUpProfileContainer, popUpNewPlaceContainer, popUpImageContainer, closeByOverlayOrButton, buttonOpenPopUpAvatar, openPopUpAvatar, popUpAvatarContainer, formAvatar, submitAvatar, profileName, profileActivityType, profileAvatar } from '../components/modal.js';
-import { enableValidation, validationObject } from '../components/validate.js';
+// import { enableValidation, validationObject } from '../components/validate.js';
 import { getCards, getProfileInfo } from '../components/Api';
-import { UserInfo } from '../components/UserInfo.js';
+import { FormValidator } from '../components/FormValidator.js';
+// import { UserInfo } from '../components/UserInfo.js';
 
 export let profileId = '';
 
@@ -152,4 +153,5 @@ popUpAvatarContainer.addEventListener('click', (evt) => {
 //     console.log(err);
 //   })
 
-enableValidation(validationObject);
+const validation = new FormValidator(validationObject);
+validation.enableValidation(validationObject);
