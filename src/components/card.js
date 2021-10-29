@@ -9,18 +9,19 @@ export class Card {
     this._selector = selector;
     this._functions = functions;
     this._profileId = profileId;
-    this._handleLikeClick = functions.handleLikeClick();
-    this._deleteCard = functions.deleteCard();
+    this._handleLikeClick = functions.handleLikeClick;
+    this._deleteCard = functions.deleteCard;
     this._cardLikeCounter; // ?
     this._likeButton;
     this._deleteButton;
     this._placeImage;
+    this._namePlace;
   }
 
   // Получить разметку карточки
   _getElement() {
     const cardElement = document
-      .querySelector(this._selector)
+      .getElementById(this._selector)
       .content
       .querySelector('.element')
       .cloneNode(true);
@@ -28,7 +29,8 @@ export class Card {
     this._cardLikeCounter = cardElement.querySelector('.element__like-counter'); // Вынести в отдельную функцию?
     this._likeButton = cardElement.querySelector('.element__like');
     this._deleteButton = cardElement.querySelector('.element__delete');
-    this._placeImage = cardElement.querySelector('.element__delete');
+    this._placeImage = cardElement.querySelector('.element__image');
+    this._namePlace = cardElement.querySelector('.element__label');
 
     return cardElement;
   }
@@ -51,9 +53,12 @@ export class Card {
     });                                                       // Связать с PopupWithImage.js
   }
 
-  // Установить количество лайков при отрисовке карточки
-  _setLikeCounter() {
+   // "Заполнение" карточки данными
+   _renderCardInfo() {
     this._cardLikeCounter.textContent = this._likes.length;
+    this._placeImage.setAttribute('src', this._cardImage);
+    this._placeImage.setAttribute('alt', this._cardName);
+    this._namePlace.textContent = this._cardName;
   }
 
   // Активация кнопки лайка если карточка была лайкнута пользователем
@@ -93,7 +98,7 @@ export class Card {
   generate() {
     this._element = this._getElement();
     this._setEventListeners();
-    this._setLikeCounter();
+    this._renderCardInfo();
     this._setLikeActive();
     this._setDeleteButtonActive()
 
@@ -201,36 +206,36 @@ export class Card {
 
 
 
-//Добавить карточку
-export function addCard(cardData, cardsArea, profileId) {
-  const card = createCard(cardData, profileId);
-  cardsArea.prepend(card);
-}
+// //Добавить карточку
+// export function addCard(cardData, cardsArea, profileId) {
+//   const card = createCard(cardData, profileId);
+//   cardsArea.prepend(card);
+// }
 
-// Создать карточку вручную
-export function createCardHandle(event) {
+// // Создать карточку вручную
+// export function createCardHandle(event) {
 
-  // Отключить стандартное поведение
-  event.preventDefault();
-  // Определить значения полей формы
-  const name = formNewPlace.querySelector('.form__item[name=name]').value;
-  const link = formNewPlace.querySelector('.form__item[name=url]').value;
+//   // Отключить стандартное поведение
+//   event.preventDefault();
+//   // Определить значения полей формы
+//   const name = formNewPlace.querySelector('.form__item[name=name]').value;
+//   const link = formNewPlace.querySelector('.form__item[name=url]').value;
 
-  const button = formNewPlace.querySelector('.button_type_save')
-  renderLoading(true, button)
+//   const button = formNewPlace.querySelector('.button_type_save')
+//   renderLoading(true, button)
 
-  postNewCard(name, link)
+//   postNewCard(name, link)
 
-    .then(
-      data => {
-        addCard(data, cardsArea, profileId);
-        closePopUp(popUpNewPlaceContainer);
-        formNewPlace.reset();
-      })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      renderLoading(false, button, 'Создать')
-    })
-}
+//     .then(
+//       data => {
+//         addCard(data, cardsArea, profileId);
+//         closePopUp(popUpNewPlaceContainer);
+//         formNewPlace.reset();
+//       })
+//     .catch((err) => {
+//       console.log(err);
+//     })
+//     .finally(() => {
+//       renderLoading(false, button, 'Создать')
+//     })
+// }

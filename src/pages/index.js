@@ -1,8 +1,10 @@
+import { cardListSection, userNameSelector, userActivitySelector, validationObject } from '../components/utils/constants.js';
 import Section from '../components/Section.js';
 import { Card } from '../components/Card';
 import { api } from '../components/Api';
-import { cardListSection, userNameSelector, userActivitySelector, validationObject } from '../components/utils/constants.js';
 import { UserInfo } from '../components/UserInfo';
+import { FormValidator } from '../components/FormValidator.js';
+import './index.css';
 
 
 Promise.all([
@@ -16,7 +18,7 @@ Promise.all([
       renderer: (item) => {
         const card = new Card(
           item,
-          '.element-template',
+          'element-template',
           values[0]._id,
           {
             handleLikeClick: (card) => {
@@ -63,23 +65,21 @@ Promise.all([
 
     // Обработка данных профиля
     const userInfo = new UserInfo(
-      { userNameSelector, userActivitySelector },
-      {
-        getUserInfoApi: () => {
-          api.getProfileInfo()
-            .then((profileData) => {
-              return profileData;
+      {userNameSelector, userActivitySelector},
+        () => api.getProfileInfo()
+            .then((data) => {
+              return data;
             })
             .catch((err) => {
               console.log(err);
             })
-        },
         // patchProfileInfoApi: (name, about) => {
         //   Api.patchProfileInfo(name, about)
-
+  
         // }
-      }
     );
+
+    userInfo.renderUserInfo();
   })
 
 
@@ -91,33 +91,33 @@ Promise.all([
 
 
 
-import './index.css';
-import { addCard, cardsArea, createCardHandle } from '../components/Card';
-import { buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, openPopUpProfile, openPopupAddPlace, formProfile, submitFormProfile, formNewPlace, popUpProfileContainer, popUpNewPlaceContainer, popUpImageContainer, closeByOverlayOrButton, buttonOpenPopUpAvatar, openPopUpAvatar, popUpAvatarContainer, formAvatar, submitAvatar, profileName, profileActivityType, profileAvatar } from '../components/modal.js';
-// import { enableValidation, validationObject } from '../components/validate.js';
-import { getCards, getProfileInfo } from '../components/Api';
-import { FormValidator } from '../components/FormValidator.js';
-import { Popup } from '../components/Popup.js';
-// import { UserInfo } from '../components/UserInfo.js';
+// import './index.css';
+// import { addCard, cardsArea, createCardHandle } from '../components/Card';
+// import { buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, openPopUpProfile, openPopupAddPlace, formProfile, submitFormProfile, formNewPlace, popUpProfileContainer, popUpNewPlaceContainer, popUpImageContainer, closeByOverlayOrButton, buttonOpenPopUpAvatar, openPopUpAvatar, popUpAvatarContainer, formAvatar, submitAvatar, profileName, profileActivityType, profileAvatar } from '../components/modal.js';
+// // import { enableValidation, validationObject } from '../components/validate.js';
+// import { getCards, getProfileInfo } from '../components/Api';
+// import { FormValidator } from '../components/FormValidator.js';
+// import { Popup } from '../components/Popup.js';
+// // import { UserInfo } from '../components/UserInfo.js';
 
-export let profileId = '';
+// export let profileId = '';
 
-// Установка слушателей на элементы
-buttonOpenPopUpProfile.addEventListener('click', () => {
-  new Popup(popUpProfileContainer).open();
-});
+// // Установка слушателей на элементы
+// buttonOpenPopUpProfile.addEventListener('click', () => {
+//   new Popup(popUpProfileContainer).open();
+// });
 
-buttonOpenPopUpNewPlace.addEventListener('click', () => {
-  new Popup(popUpNewPlaceContainer).open();
-});
+// buttonOpenPopUpNewPlace.addEventListener('click', () => {
+//   new Popup(popUpNewPlaceContainer).open();
+// });
 
-buttonOpenPopUpAvatar.addEventListener('click', () => {
-  new Popup(popUpAvatarContainer).open();
-});
+// buttonOpenPopUpAvatar.addEventListener('click', () => {
+//   new Popup(popUpAvatarContainer).open();
+// });
 
-formProfile.addEventListener('submit', submitFormProfile);
-formNewPlace.addEventListener('submit', createCardHandle);
-formAvatar.addEventListener('submit', submitAvatar);
+// formProfile.addEventListener('submit', submitFormProfile);
+// formNewPlace.addEventListener('submit', createCardHandle);
+// formAvatar.addEventListener('submit', submitAvatar);
 
 // popUpProfileContainer.addEventListener('click', (evt) => {
 
