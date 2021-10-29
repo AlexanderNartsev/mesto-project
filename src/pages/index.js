@@ -4,6 +4,7 @@ import { api } from '../components/Api';
 import { cardListSection, userNameSelector, userActivitySelector, validationObject } from '../components/utils/constants.js';
 import { UserInfo } from '../components/UserInfo';
 
+
 Promise.all([
   api.getProfileInfo(),
   api.getInitialCards()
@@ -96,41 +97,45 @@ import { buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, openPopUpProfile, open
 // import { enableValidation, validationObject } from '../components/validate.js';
 import { getCards, getProfileInfo } from '../components/Api';
 import { FormValidator } from '../components/FormValidator.js';
+import { Popup } from '../components/Popup.js';
 // import { UserInfo } from '../components/UserInfo.js';
 
 export let profileId = '';
 
 // Установка слушателей на элементы
-buttonOpenPopUpProfile.addEventListener('click', openPopUpProfile);
-buttonOpenPopUpNewPlace.addEventListener('click', openPopupAddPlace);
-buttonOpenPopUpAvatar.addEventListener('click', openPopUpAvatar);
+buttonOpenPopUpProfile.addEventListener('click', () => {
+  new Popup(popUpProfileContainer).open();
+});
+
+buttonOpenPopUpNewPlace.addEventListener('click', () => {
+  new Popup(popUpNewPlaceContainer).open();
+});
+
+buttonOpenPopUpAvatar.addEventListener('click', () => {
+  new Popup(popUpAvatarContainer).open();
+});
+
 formProfile.addEventListener('submit', submitFormProfile);
 formNewPlace.addEventListener('submit', createCardHandle);
 formAvatar.addEventListener('submit', submitAvatar);
 
-popUpProfileContainer.addEventListener('click', (evt) => {
+// popUpProfileContainer.addEventListener('click', (evt) => {
 
-  closeByOverlayOrButton(evt, popUpProfileContainer)
+//   closeByOverlayOrButton(evt, popUpProfileContainer)
 
-});
+// });
 
-popUpNewPlaceContainer.addEventListener('click', (evt) => {
+// popUpNewPlaceContainer.addEventListener('click', (evt) => {
 
-  closeByOverlayOrButton(evt, popUpNewPlaceContainer)
+//   closeByOverlayOrButton(evt, popUpNewPlaceContainer)
 
-});
+// });
 
-popUpImageContainer.addEventListener('click', (evt) => {
+// popUpAvatarContainer.addEventListener('click', (evt) => {
 
-  closeByOverlayOrButton(evt, popUpImageContainer)
+//   closeByOverlayOrButton(evt, popUpAvatarContainer)
 
-});
-
-popUpAvatarContainer.addEventListener('click', (evt) => {
-
-  closeByOverlayOrButton(evt, popUpAvatarContainer)
-
-});
+// });
 
 // Promise.all([
 //   getProfileInfo(),

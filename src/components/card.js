@@ -1,3 +1,5 @@
+import { PopupWithImage } from "./PopupWithImage";
+
 export class Card {
   constructor(data, selector, profileId, functions) {
     this._cardImage = data.link;
@@ -17,7 +19,7 @@ export class Card {
 
   // Получить разметку карточки
   _getElement() {
-  	const cardElement = document
+    const cardElement = document
       .querySelector(this._selector)
       .content
       .querySelector('.element')
@@ -44,8 +46,10 @@ export class Card {
       this._handleLikeClick(this);
     });
     // Открытие изображения
-    this._placeImage.addEventListener('click', openImage);// Связать с PopupWithImage.js
-	}
+    this._placeImage.addEventListener('click', (evt) => {
+      new PopupWithImage(popUpImageContainer).open();         // переделать под гибкую связку
+    });                                                       // Связать с PopupWithImage.js
+  }
 
   // Установить количество лайков при отрисовке карточки
   _setLikeCounter() {
@@ -93,7 +97,7 @@ export class Card {
     this._setLikeActive();
     this._setDeleteButtonActive()
 
-  	return this._element;
+    return this._element;
   }
 }
 
