@@ -1,7 +1,8 @@
+import { cardListSection, userNameSelector, userActivitySelector, validationObject } from '../components/utils/constants.js';
+import './index.css';
 import Section from '../components/Section.js';
 import { Card } from '../components/Card';
 import { api } from '../components/Api';
-import { cardListSection, userNameSelector, userActivitySelector, validationObject } from '../components/utils/constants.js';
 import { UserInfo } from '../components/UserInfo';
 
 
@@ -55,31 +56,29 @@ Promise.all([
 
         cardsList.setItem(cardElement);
       },
-    },
-      cardListSection
-    );
-    // отрисовка карточек
-    cardsList.renderItems();
+  },
+    cardListSection
+  );
+  // отрисовка карточек
+  cardsList.renderItems();
 
-    // Обработка данных профиля
-    const userInfo = new UserInfo(
-      { userNameSelector, userActivitySelector },
-      {
-        getUserInfoApi: () => {
-          api.getProfileInfo()
-            .then((profileData) => {
-              return profileData;
-            })
-            .catch((err) => {
-              console.log(err);
-            })
-        },
-        // patchProfileInfoApi: (name, about) => {
-        //   Api.patchProfileInfo(name, about)
+  // Обработка данных профиля
+  const userInfo = new UserInfo(
+    {userNameSelector, userActivitySelector},
+      () => api.getProfileInfo()
+          .then((data) => {
+            return data;
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+      // patchProfileInfoApi: (name, about) => {
+      //   Api.patchProfileInfo(name, about)
 
-        // }
-      }
-    );
+      // }
+  );
+    
+    userInfo.setUserInfo();
   })
 
 
@@ -100,7 +99,7 @@ import { FormValidator } from '../components/FormValidator.js';
 import { Popup } from '../components/Popup.js';
 // import { UserInfo } from '../components/UserInfo.js';
 
-export let profileId = '';
+// export let profileId = '';
 
 // Установка слушателей на элементы
 buttonOpenPopUpProfile.addEventListener('click', () => {
@@ -157,6 +156,7 @@ formAvatar.addEventListener('submit', submitAvatar);
 //   .catch((err) => {
 //     console.log(err);
 //   })
+
 
 const validation = new FormValidator(validationObject);
 validation.enableValidation(validationObject);
