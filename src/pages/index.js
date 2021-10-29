@@ -158,5 +158,6 @@ Promise.all([
 //     console.log(err);
 //   })
 
+
 const validation = new FormValidator(validationObject);
 validation.enableValidation(validationObject);
