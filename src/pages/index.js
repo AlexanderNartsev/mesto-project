@@ -1,59 +1,60 @@
-import { cardListSection, userNameSelector, userActivitySelector } from '../components/utils/constants.js';
+import { cardListSection, userNameSelector, userActivitySelector, validationObject } from '../components/utils/constants.js';
 import './index.css';
 import Section from '../components/Section.js';
 import { Card } from '../components/Card';
 import { api } from '../components/Api';
 import { UserInfo } from '../components/UserInfo';
 
+
 Promise.all([
   api.getProfileInfo(),
   api.getInitialCards()
 ])
   .then((values) => {
-  // Обработка карточек
-  const cardsList = new Section({
-    items: values[1],
-    renderer: (item) => {
-      const card = new Card(
-        item, 
-        'element-template',
-        values[0]._id,
-        {
-          handleLikeClick: (card) => {
-            if (!card._likeButton.classList.contains("element__like_on")) {
-              api.putLike(card._cardId)
-                .then((dataCard) => {
-                  card.setLikesInfo(dataCard);
+    // Обработка карточек
+    const cardsList = new Section({
+      items: values[1],
+      renderer: (item) => {
+        const card = new Card(
+          item,
+          '.element-template',
+          values[0]._id,
+          {
+            handleLikeClick: (card) => {
+              if (!card._likeButton.classList.contains("element__like_on")) {
+                api.putLike(card._cardId)
+                  .then((dataCard) => {
+                    card.setLikesInfo(dataCard);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  })
+              }
+              else {
+                api.deleteLike(card._cardId)
+                  .then((dataCard) => {
+                    card.setLikesInfo(dataCard);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  })
+              }
+            },
+            deleteCard: (card) => {
+              api.deleteOwnersCard(card._cardId)
+                .then(() => {
+                  card.deleteCardElement();
                 })
                 .catch((err) => {
                   console.log(err);
-                })
+                });
             }
-            else {
-              api.deleteLike(card._cardId)
-                .then((dataCard) => {
-                  card.setLikesInfo(dataCard);
-                })
-                .catch((err) => {
-                  console.log(err);
-                })
-            }
-          },
-          deleteCard: (card) => {
-            api.deleteOwnersCard(card._cardId)
-            .then(() => {
-              card.deleteCardElement();
-            })
-            .catch((err) => {
-              console.log(err);
-            });
           }
-        }
         );
 
-      const cardElement = card.generate();
+        const cardElement = card.generate();
 
-      cardsList.setItem(cardElement);
+        cardsList.setItem(cardElement);
       },
   },
     cardListSection
@@ -79,7 +80,6 @@ Promise.all([
     
     userInfo.setUserInfo();
   })
-  
 
 
 
@@ -89,22 +89,34 @@ Promise.all([
 
 
 
-// import './index.css';
-// import { addCard, cardsArea, createCardHandle } from '../components/Card';
-// import { buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, openPopUpProfile, openPopupAddPlace, formProfile, submitFormProfile, formNewPlace, popUpProfileContainer, popUpNewPlaceContainer, popUpImageContainer, closeByOverlayOrButton, buttonOpenPopUpAvatar, openPopUpAvatar, popUpAvatarContainer, formAvatar, submitAvatar, profileName, profileActivityType, profileAvatar } from '../components/modal.js';
+
+import './index.css';
+import { addCard, cardsArea, createCardHandle } from '../components/Card';
+import { buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, openPopUpProfile, openPopupAddPlace, formProfile, submitFormProfile, formNewPlace, popUpProfileContainer, popUpNewPlaceContainer, popUpImageContainer, closeByOverlayOrButton, buttonOpenPopUpAvatar, openPopUpAvatar, popUpAvatarContainer, formAvatar, submitAvatar, profileName, profileActivityType, profileAvatar } from '../components/modal.js';
 // import { enableValidation, validationObject } from '../components/validate.js';
-// import { getCards, getProfileInfo } from '../components/Api';
+import { getCards, getProfileInfo } from '../components/Api';
+import { FormValidator } from '../components/FormValidator.js';
+import { Popup } from '../components/Popup.js';
 // import { UserInfo } from '../components/UserInfo.js';
 
 // export let profileId = '';
 
-// // Установка слушателей на элементы
-// buttonOpenPopUpProfile.addEventListener('click', openPopUpProfile);
-// buttonOpenPopUpNewPlace.addEventListener('click', openPopupAddPlace);
-// buttonOpenPopUpAvatar.addEventListener('click', openPopUpAvatar);
-// formProfile.addEventListener('submit', submitFormProfile);
-// formNewPlace.addEventListener('submit', createCardHandle);
-// formAvatar.addEventListener('submit', submitAvatar);
+// Установка слушателей на элементы
+buttonOpenPopUpProfile.addEventListener('click', () => {
+  new Popup(popUpProfileContainer).open();
+});
+
+buttonOpenPopUpNewPlace.addEventListener('click', () => {
+  new Popup(popUpNewPlaceContainer).open();
+});
+
+buttonOpenPopUpAvatar.addEventListener('click', () => {
+  new Popup(popUpAvatarContainer).open();
+});
+
+formProfile.addEventListener('submit', submitFormProfile);
+formNewPlace.addEventListener('submit', createCardHandle);
+formAvatar.addEventListener('submit', submitAvatar);
 
 // popUpProfileContainer.addEventListener('click', (evt) => {
 
@@ -115,12 +127,6 @@ Promise.all([
 // popUpNewPlaceContainer.addEventListener('click', (evt) => {
 
 //   closeByOverlayOrButton(evt, popUpNewPlaceContainer)
-
-// });
-
-// popUpImageContainer.addEventListener('click', (evt) => {
-
-//   closeByOverlayOrButton(evt, popUpImageContainer)
 
 // });
 
@@ -151,4 +157,6 @@ Promise.all([
 //     console.log(err);
 //   })
 
-// enableValidation(validationObject);
+
+const validation = new FormValidator(validationObject);
+validation.enableValidation(validationObject);

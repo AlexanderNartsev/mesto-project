@@ -1,3 +1,5 @@
+import { PopupWithImage } from "./PopupWithImage";
+
 export class Card {
   constructor(data, selector, profileId, functions) {
     this._cardImage = data.link;
@@ -46,8 +48,10 @@ export class Card {
       this._handleLikeClick(this);
     });
     // Открытие изображения
-    // this._placeImage.addEventListener('click', openImage);// Связать с PopupWithImage.js
-	}
+    this._placeImage.addEventListener('click', (evt) => {
+      new PopupWithImage(popUpImageContainer).open();         // переделать под гибкую связку
+    });                                                       // Связать с PopupWithImage.js
+  }
 
   // "Заполнение" карточки данными
   _renderCardInfo() {
@@ -98,7 +102,7 @@ export class Card {
     this._setLikeActive();
     this._setDeleteButtonActive()
 
-  	return this._element;
+    return this._element;
   }
 }
 
