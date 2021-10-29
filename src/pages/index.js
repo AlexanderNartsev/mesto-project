@@ -1,11 +1,11 @@
-import { cardListSection, userNameSelector, userActivitySelector, validationObject } from '../components/utils/constants.js';
+import { cardListSection, userNameSelector, userActivitySelector, validationObject, buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, popUpProfileContainer, popUpNewPlaceContainer, buttonOpenPopUpAvatar, popUpAvatarContainer, formProfile, formNewPlace, formAvatar } from '../components/utils/constants.js';
 import Section from '../components/Section.js';
 import { Card } from '../components/Card';
 import { api } from '../components/Api';
 import { UserInfo } from '../components/UserInfo';
 import { FormValidator } from '../components/FormValidator.js';
+import { Popup } from '../components/Popup.js';
 import './index.css';
-
 
 Promise.all([
   api.getProfileInfo(),
@@ -65,27 +65,43 @@ Promise.all([
 
     // Обработка данных профиля
     const userInfo = new UserInfo(
-      {userNameSelector, userActivitySelector},
-        () => api.getProfileInfo()
-            .then((data) => {
-              return data;
-            })
-            .catch((err) => {
-              console.log(err);
-            })
-        // patchProfileInfoApi: (name, about) => {
-        //   Api.patchProfileInfo(name, about)
-  
-        // }
+      { userNameSelector, userActivitySelector },
+      () => api.getProfileInfo()
+        .then((data) => {
+          return data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+      // patchProfileInfoApi: (name, about) => {
+      //   Api.patchProfileInfo(name, about)
+
+      // }
     );
 
     userInfo.renderUserInfo();
   })
 
+export let profileId = '';
 
+// Установка слушателей на элементы
+buttonOpenPopUpProfile.addEventListener('click', () => {
+  new Popup(popUpProfileContainer).open();
+});
 
+buttonOpenPopUpNewPlace.addEventListener('click', () => {
+  new Popup(popUpNewPlaceContainer).open();
+});
 
+buttonOpenPopUpAvatar.addEventListener('click', () => {
+  new Popup(popUpAvatarContainer).open();
+});
 
+new FormValidator(validationObject).enableValidation();
+
+// formProfile.addEventListener('submit', submitFormProfile);
+// formNewPlace.addEventListener('submit', createCardHandle);
+// formAvatar.addEventListener('submit', submitAvatar);
 
 
 
@@ -97,27 +113,9 @@ Promise.all([
 // // import { enableValidation, validationObject } from '../components/validate.js';
 // import { getCards, getProfileInfo } from '../components/Api';
 // import { FormValidator } from '../components/FormValidator.js';
-// import { Popup } from '../components/Popup.js';
+
 // // import { UserInfo } from '../components/UserInfo.js';
 
-// export let profileId = '';
-
-// // Установка слушателей на элементы
-// buttonOpenPopUpProfile.addEventListener('click', () => {
-//   new Popup(popUpProfileContainer).open();
-// });
-
-// buttonOpenPopUpNewPlace.addEventListener('click', () => {
-//   new Popup(popUpNewPlaceContainer).open();
-// });
-
-// buttonOpenPopUpAvatar.addEventListener('click', () => {
-//   new Popup(popUpAvatarContainer).open();
-// });
-
-// formProfile.addEventListener('submit', submitFormProfile);
-// formNewPlace.addEventListener('submit', createCardHandle);
-// formAvatar.addEventListener('submit', submitAvatar);
 
 // popUpProfileContainer.addEventListener('click', (evt) => {
 
@@ -158,6 +156,3 @@ Promise.all([
 //     console.log(err);
 //   })
 
-
-const validation = new FormValidator(validationObject);
-validation.enableValidation(validationObject);
