@@ -66,17 +66,24 @@ Promise.all([
     // Обработка данных профиля
     const userInfo = new UserInfo(
       {userNameSelector, userActivitySelector},
-        () => api.getProfileInfo()
-            .then((data) => {
-              return data;
-            })
-            .catch((err) => {
-              console.log(err);
-            })
-        // patchProfileInfoApi: (name, about) => {
-        //   Api.patchProfileInfo(name, about)
-  
-        // }
+      () => api.getProfileInfo()
+          .then((data) => {
+            return data;
+          })
+          .catch((err) => {
+            console.log(err);
+          }),
+      (name,about) => api.patchProfileInfo(name,about)
+        .then(() => {
+          //   // Закрыть модальное окно
+          //   closePopUp(popUpProfileContainer);
+          // })
+          // .catch((err) => {
+          //   console.log(err);
+          // })
+          // .finally(() => {
+          //   renderLoading(false, button, 'Сохранить');
+          })
     );
 
     userInfo.renderUserInfo();
