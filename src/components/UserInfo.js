@@ -1,10 +1,9 @@
-
-
 export class UserInfo {
-  constructor (profileSelectors, getUserData) {
+  constructor (profileSelectors, getUserData, patchUserData) {
     this._name = document.querySelector(profileSelectors.userNameSelector);
     this._activity = document.querySelector(profileSelectors.userActivitySelector);
     this._getUserData = getUserData;
+    this._patchUserData = patchUserData;
     this._profileAvatar = document.querySelector('.profile__avatar');
   }
 
@@ -13,21 +12,22 @@ export class UserInfo {
     return this._getUserData();
   }
 
-  //Отрисовываем на странице данные пользователя
   renderUserInfo() {
-
     this.getUserInfo().then((res) => {
       this._name.textContent = res.name;
-      this._activity.textContent = res.activityType;
+      this._activity.textContent = res.about;
       this._profileAvatar.setAttribute('src', res.avatar);
       this._profileAvatar.setAttribute('alt', res.name);
     })
-    // profileId = UserInfo.id;
   }
 
   setUserInfo(newProfileData) {
-    //Тут отправляем данные на сервер, после чего вызываем renderUserInfo
-  }
+    //Отправляем данные на сервер
+    this._patchUserData(newProfileData.name, newProfileData.about, newProfileData.avatar);
 
+    //Обновляем отрисовку данных профиля 
+    this.renderUserInfo();
+    // profileId = UserInfo.id;
+  }
   
 }
