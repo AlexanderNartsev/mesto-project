@@ -1,4 +1,5 @@
-import { PopupWithImage } from "./PopupWithImage";
+import { PopupWithImage } from "./PopupWithImage.js";
+import { popUpImageContainer } from "./utils/constants.js";
 
 export class Card {
   constructor(data, selector, profileId, functions) {
@@ -53,8 +54,8 @@ export class Card {
     });                                                       // Связать с PopupWithImage.js
   }
 
-   // "Заполнение" карточки данными
-   _renderCardInfo() {
+  // "Заполнение" карточки данными
+  _renderCardInfo() {
     this._cardLikeCounter.textContent = this._likes.length;
     this._placeImage.setAttribute('src', this._cardImage);
     this._placeImage.setAttribute('alt', this._cardName);
