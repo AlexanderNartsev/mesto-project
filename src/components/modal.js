@@ -65,27 +65,27 @@
 //   // Отключить стандартное поведение
 //   event.preventDefault();
 
-//   const name = profileNameInput.value
-//   const activity = profileActivityTypeInput.value
+  // const name = profileNameInput.value
+  // const activity = profileActivityTypeInput.value
 
-//   const button = formProfile.querySelector('.button_type_save')
-//   renderLoading(true, button)
+  // const button = formProfile.querySelector('.button_type_save')
+  // renderLoading(true, button)
 
-//   patchProfileInfo(name, activity)
-//     .then(() => {
-//       // Присвоить введённые значения на форме полям профиля
-//       profileName.textContent = name;
-//       profileActivityType.textContent = activity;
+  // patchProfileInfo(name, activity)
+  //   .then(() => {
+  //     // Присвоить введённые значения на форме полям профиля
+  //     profileName.textContent = name;
+  //     profileActivityType.textContent = activity;
 
-//       // Закрыть модальное окно
-//       closePopUp(popUpProfileContainer);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     })
-//     .finally(() => {
-//       renderLoading(false, button, 'Сохранить');
-//     })
+  //     // Закрыть модальное окно
+  //     closePopUp(popUpProfileContainer);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   })
+  //   .finally(() => {
+  //     renderLoading(false, button, 'Сохранить');
+  //   })
 
 // }
 
