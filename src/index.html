@@ -14,9 +14,9 @@
             <h2 class="form__header">Редактировать профиль</h2>
             <input class="form__item" name="name" type="text" placeholder="Имя" required minlength="2" maxlength="40">
             <span class="error name-error"></span>
-            <input class="form__item" name="activity-type" type="text" placeholder="Дополнительная информация" required
+            <input class="form__item" name="about" type="text" placeholder="Дополнительная информация" required
                 minlength="2" maxlength="200">
-            <span class="error activity-type-error"></span>
+            <span class="error about-error"></span>
             <button class="button button_type_save" type="submit" value="Сохранить">Сохранить</button>
             <button class="button button_type_close" type="button">
                 <img src="<%=require('./images/Close.svg')%>" alt="Кнопка Закрыть"
@@ -28,10 +28,10 @@
     <div class="form-container">
         <form class="form add-form" name="add-form" action="#" novalidate>
             <h2 class="form__header">Новое место</h2>
-            <input class="form__item" name="name" type="text" placeholder="Название" required minlength="2"
+            <input class="form__item" name="cardName" type="text" placeholder="Название" required minlength="2"
                 maxlength="30">
             <span class="error name-error"></span>
-            <input class="form__item" name="url" type="url" placeholder="Ссылка на картинку" required>
+            <input class="form__item" name="cardUrl" type="url" placeholder="Ссылка на картинку" required>
             <span class="error url-error"></span>
             <button class="button button_type_save" type="submit" value="Создать">Создать</button>
             <button class="button button_type_close" type="button">
