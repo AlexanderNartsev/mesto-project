@@ -8,6 +8,8 @@ import { Popup } from '../components/Popup.js';
 import './index.css';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 
+let userId;
+
 Promise.all([
   api.getProfileInfo(),
   api.getInitialCards()
@@ -17,42 +19,8 @@ Promise.all([
     const cardsList = new Section({
       items: values[1],
       renderer: (item) => {
-        const card = new Card(
-          item,
-          'element-template',
-          values[0]._id,
-          {
-            handleLikeClick: (card) => {
-              if (!card._likeButton.classList.contains("element__like_on")) {
-                api.putLike(card._cardId)
-                  .then((dataCard) => {
-                    card.setLikesInfo(dataCard);
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  })
-              }
-              else {
-                api.deleteLike(card._cardId)
-                  .then((dataCard) => {
-                    card.setLikesInfo(dataCard);
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  })
-              }
-            },
-            deleteCard: (card) => {
-              api.deleteOwnersCard(card._cardId)
-                .then(() => {
-                  card.deleteCardElement();
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            }
-          }
-        );
+        userId = values[0]._id;
+        const card = createCard(item);
 
         const cardElement = card.generate();
 
@@ -163,8 +131,18 @@ buttonOpenPopUpNewPlace.addEventListener('click', () => {
       api.postNewCard(name, link)
         .then(
           data => {
-            // дописать логику
-            console.log(name, link)
+            const newCard = new Section({
+              items: data,
+              renderer: (item) => {
+                const card = createCard(item);
+        
+                const cardElement = card.generate();
+                newCard.setItem(cardElement);
+              },
+            },
+              cardListSection
+            );
+            newCard.renderItems();
           })
         .catch((err) => {
           console.log(err);
@@ -178,51 +156,44 @@ buttonOpenPopUpNewPlace.addEventListener('click', () => {
 
 new FormValidator(validationObject).enableValidation();
 
-// formProfile.addEventListener('submit', (evt) => {
-//   new PopupWithForm(popUpProfileContainer);
-// });
-
-// formNewPlace.addEventListener('submit', createCardHandle);
-// formAvatar.addEventListener('submit', submitAvatar);
-
-// import './index.css';
-// import { addCard, cardsArea, createCardHandle } from '../components/Card';
-// import { buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, openPopUpProfile, openPopupAddPlace, formProfile, submitFormProfile, formNewPlace, popUpProfileContainer, popUpNewPlaceContainer, popUpImageContainer, closeByOverlayOrButton, buttonOpenPopUpAvatar, openPopUpAvatar, popUpAvatarContainer, formAvatar, submitAvatar, profileName, profileActivityType, profileAvatar } from '../components/modal.js';
-// // import { enableValidation, validationObject } from '../components/validate.js';
-// import { getCards, getProfileInfo } from '../components/Api';
-// import { FormValidator } from '../components/FormValidator.js';
-// import { UserInfo } from '../components/UserInfo.js';
-
-// popUpProfileContainer.addEventListener('click', (evt) => {
-//   closeByOverlayOrButton(evt, popUpProfileContainer)
-// });
-
-// popUpNewPlaceContainer.addEventListener('click', (evt) => {
-//   closeByOverlayOrButton(evt, popUpNewPlaceContainer)
-// });
-
-// popUpAvatarContainer.addEventListener('click', (evt) => {
-//   closeByOverlayOrButton(evt, popUpAvatarContainer)
-// });
-
-// Promise.all([
-//   getProfileInfo(),
-//   getCards()
-// ])
-//   .then((values) => {
-
-//     profileId = values[0]._id;
-
-//     profileName.textContent = values[0].name;
-//     profileActivityType.textContent = values[0].about;
-//     profileAvatar.setAttribute('src', values[0].avatar);
-//     profileAvatar.setAttribute('alt', values[0].name);
-
-//     values[1].forEach(cardData => {
-//       addCard(cardData, cardsArea, profileId);
-//     })
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   })
-
+function createCard(cardData) {
+  const card = new Card(
+    cardData, 
+    'element-template', 
+    userId,
+    {
+      handleLikeClick: (thisCard) => {
+        if (!thisCard._likeButton.classList.contains("element__like_on")) {
+          api.putLike(thisCard._cardId)
+            .then((dataCard) => {
+              console.log(thisCard.setLikesInfo);
+              thisCard.setLikesInfo(dataCard);
+            })
+            .catch((err) => {
+              console.log(err);
+            })
+        }
+        else {
+          api.deleteLike(thisCard._cardId)
+            .then((dataCard) => {
+              console.log('test1');
+              thisCard.setLikesInfo(dataCard);
+            })
+            .catch((err) => {
+              console.log(err);
+            })
+        }
+      },
+      deleteCard: (card) => {
+        api.deleteOwnersCard(card._cardId)
+          .then(() => {
+            card.deleteCardElement();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
+  );
+  return card;
+}
