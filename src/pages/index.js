@@ -60,6 +60,19 @@ Promise.all([
 
 export let profileId = '';
 
+// Функция отрисовки ожидания на кнопке
+function renderLoading(isLoading, form, text) {
+  const loadingText = 'Сохранение...'
+  const button = form.querySelector('.button_type_save');
+
+  if (isLoading) {
+    button.textContent = loadingText;
+  }
+  else {
+    button.textContent = text;
+  }
+}
+
 // Установка слушателей на элементы
 buttonOpenPopUpProfile.addEventListener('click', () => {
 
@@ -75,19 +88,7 @@ buttonOpenPopUpProfile.addEventListener('click', () => {
       const name = data.name;
       const about = data.about;
 
-      const button = formProfile.querySelector('.button_type_save')
-
-      function renderLoading(isLoading, button, text) {
-        const loadingText = 'Сохранение...'
-        if (isLoading) {
-          button.textContent = loadingText;
-        }
-        else {
-          button.textContent = text;
-        }
-      }
-
-      renderLoading(true, button);
+      renderLoading(true, formProfile);
 
       api.patchProfileInfo(name, about)
         .then(() => {
@@ -98,7 +99,7 @@ buttonOpenPopUpProfile.addEventListener('click', () => {
           console.log(err);
         })
         .finally(() => {
-          renderLoading(false, button, 'Сохранить');
+          renderLoading(false, formProfile, 'Сохранить');
         })
     }
   }).open();
@@ -110,19 +111,8 @@ buttonOpenPopUpAvatar.addEventListener('click', () => {
     popUp: popUpAvatarContainer,
     func: (data) => {
       const url = data.url;
-      const button = formAvatar.querySelector('.button_type_save')
 
-      function renderLoading(isLoading, button, text) {
-        const loadingText = 'Сохранение...'
-        if (isLoading) {
-          button.textContent = loadingText;
-        }
-        else {
-          button.textContent = text;
-        }
-      }
-
-      renderLoading(true, button);
+      renderLoading(true, formAvatar);
 
       api.patchAvatar(url)
         .then(() => {
@@ -133,7 +123,7 @@ buttonOpenPopUpAvatar.addEventListener('click', () => {
           console.log(err);
         })
         .finally(() => {
-          renderLoading(false, button, 'Сохранить');
+          renderLoading(false, formAvatar, 'Сохранить');
         })
     }
   }).open();
@@ -147,19 +137,7 @@ buttonOpenPopUpNewPlace.addEventListener('click', () => {
       const name = data.cardName;
       const link = data.cardUrl;
 
-      const button = formNewPlace.querySelector('.button_type_save')
-
-      function renderLoading(isLoading, button, text) {
-        const loadingText = 'Сохранение...'
-        if (isLoading) {
-          button.textContent = loadingText;
-        }
-        else {
-          button.textContent = text;
-        }
-      }
-
-      renderLoading(true, button);
+      renderLoading(true, formNewPlace);
 
       api.postNewCard(name, link)
         .then(
@@ -168,7 +146,7 @@ buttonOpenPopUpNewPlace.addEventListener('click', () => {
               items: data,
               renderer: (item) => {
                 const card = createCard(item);
-        
+
                 const cardElement = card.generate();
                 newCard.setItem(cardElement);
               },
@@ -181,7 +159,7 @@ buttonOpenPopUpNewPlace.addEventListener('click', () => {
           console.log(err);
         })
         .finally(() => {
-          renderLoading(false, button, 'Создать')
+          renderLoading(false, formNewPlace, 'Создать')
         })
     }
   }).open();
@@ -192,8 +170,8 @@ new FormValidator(validationObject).enableValidation();
 
 function createCard(cardData) {
   const card = new Card(
-    cardData, 
-    'element-template', 
+    cardData,
+    'element-template',
     userId,
     {
       handleLikeClick: (thisCard) => {
