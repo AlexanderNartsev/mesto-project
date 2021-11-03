@@ -94,6 +94,13 @@ export let profileId = '';
 
 // Установка слушателей на элементы
 buttonOpenPopUpProfile.addEventListener('click', () => {
+
+  const nameInput = popUpProfileContainer.querySelector('.form__item[name=name]');
+  const aboutInput = popUpProfileContainer.querySelector('.form__item[name=about]');
+
+  nameInput.value = document.querySelector('.profile__name').textContent;
+  aboutInput.value = document.querySelector('.profile__text').textContent;
+
   new PopupWithForm({
     popUp: popUpProfileContainer,
     func: (data) => {
