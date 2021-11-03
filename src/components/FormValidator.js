@@ -97,6 +97,7 @@ export class FormValidator {
         evt.preventDefault();
       });
       this._setEventListeners(formEl, validationObject);
+      this.resetValidation(formEl);
     });
 
   }
