@@ -24,7 +24,15 @@ export class PopupWithForm extends Popup {
 
   }
 
-  _submitForm(evt) {
+  close() {
+
+    super.close();
+
+    this.form.removeEventListener('submit', this._submitForm);
+
+  };
+
+  _submitForm = (evt) => {
 
     evt.preventDefault();
     this._getInputValues();
@@ -34,19 +42,11 @@ export class PopupWithForm extends Popup {
 
   }
 
-  close() {
-
-    super.close();
-
-    this.form.removeEventListener('submit', (evt) => { this._submitForm(evt) });
-
-  };
-
   setEventListeners() {
 
     super.setEventListeners();
 
-    this.form.addEventListener('submit', (evt) => { this._submitForm(evt) });
+    this.form.addEventListener('submit', this._submitForm);
 
   }
 
