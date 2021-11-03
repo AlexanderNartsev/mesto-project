@@ -108,7 +108,18 @@ buttonOpenPopUpProfile.addEventListener('click', () => {
       const about = data.about;
 
       const button = formProfile.querySelector('.button_type_save')
-      // renderLoading(true, button)
+
+      function renderLoading(isLoading, button, text) {
+        const loadingText = 'Сохранение...'
+        if (isLoading) {
+          button.textContent = loadingText;
+        }
+        else {
+          button.textContent = text;
+        }
+      }
+
+      renderLoading(true, button);
 
       api.patchProfileInfo(name, about)
         .then(() => {
@@ -119,8 +130,7 @@ buttonOpenPopUpProfile.addEventListener('click', () => {
           console.log(err);
         })
         .finally(() => {
-          // renderLoading(false, button, 'Сохранить');
-          //console.log('finall')
+          renderLoading(false, button, 'Сохранить');
         })
     }
   }).open();
@@ -133,7 +143,18 @@ buttonOpenPopUpAvatar.addEventListener('click', () => {
     func: (data) => {
       const url = data.url;
       const button = formAvatar.querySelector('.button_type_save')
-      // renderLoading(true, button)
+
+      function renderLoading(isLoading, button, text) {
+        const loadingText = 'Сохранение...'
+        if (isLoading) {
+          button.textContent = loadingText;
+        }
+        else {
+          button.textContent = text;
+        }
+      }
+
+      renderLoading(true, button);
 
       api.patchAvatar(url)
         .then(() => {
@@ -144,8 +165,7 @@ buttonOpenPopUpAvatar.addEventListener('click', () => {
           console.log(err);
         })
         .finally(() => {
-          // renderLoading(false, button, 'Сохранить');
-          //console.log('finall')
+          renderLoading(false, button, 'Сохранить');
         })
     }
   }).open();
@@ -160,7 +180,18 @@ buttonOpenPopUpNewPlace.addEventListener('click', () => {
       const link = data.cardUrl;
 
       const button = formNewPlace.querySelector('.button_type_save')
-      // renderLoading(true, button)
+
+      function renderLoading(isLoading, button, text) {
+        const loadingText = 'Сохранение...'
+        if (isLoading) {
+          button.textContent = loadingText;
+        }
+        else {
+          button.textContent = text;
+        }
+      }
+
+      renderLoading(true, button);
 
       api.postNewCard(name, link)
         .then(
@@ -172,7 +203,7 @@ buttonOpenPopUpNewPlace.addEventListener('click', () => {
           console.log(err);
         })
         .finally(() => {
-          //renderLoading(false, button, 'Создать')
+          renderLoading(false, button, 'Создать')
         })
     }
   }).open();
