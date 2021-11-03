@@ -1,6 +1,3 @@
-import { PopupWithImage } from "./PopupWithImage.js";
-import { popUpImageContainer } from "./utils/constants.js";
-
 export class Card {
   constructor(data, selector, profileId, functions) {
     this._cardImage = data.link;
@@ -13,6 +10,7 @@ export class Card {
     this._profileId = profileId;
     this._handleLikeClick = functions.handleLikeClick;
     this._deleteCard = functions.deleteCard;
+    this._openPopup = functions.openImagePopup;
     this._cardLikeCounter; // ?
     this._likeButton;
     this._deleteButton;
@@ -50,9 +48,9 @@ export class Card {
       this._handleLikeClick(this);
     });
     // Открытие изображения
-    this._placeImage.addEventListener('click', (evt) => {
-      new PopupWithImage(popUpImageContainer).open();         // переделать под гибкую связку
-    });                                                       // Связать с PopupWithImage.js
+    this._placeImage.addEventListener('click', () => {
+      this._openPopup(this._cardImage, this._cardName);  
+    });                                                      
   }
 
   // "Заполнение" карточки данными

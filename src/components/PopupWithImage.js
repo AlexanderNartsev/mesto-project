@@ -8,16 +8,13 @@ export class PopupWithImage extends Popup {
 
   }
 
-  open() {
+  open(cardUrl, cardName) {
 
     super.open();
 
-    const imageUrl = event.target.getAttribute('src');
-    const imageName = event.target.getAttribute('alt');
-
-    this.popUp.querySelector('.image-popup__image').setAttribute('src', imageUrl);
-    this.popUp.querySelector('.image-popup__image').setAttribute('alt', imageName);
-    this.popUp.querySelector('.image-popup__name').textContent = imageName;
+    this.popUp.querySelector('.image-popup__image').setAttribute('src', cardUrl);
+    this.popUp.querySelector('.image-popup__image').setAttribute('alt', cardName);
+    this.popUp.querySelector('.image-popup__name').textContent = cardName;
 
   }
 

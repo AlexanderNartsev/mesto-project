@@ -1,12 +1,12 @@
-import { cardListSection, userNameSelector, userActivitySelector, validationObject, buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, popUpProfileContainer, popUpNewPlaceContainer, buttonOpenPopUpAvatar, popUpAvatarContainer, formProfile, formNewPlace, formAvatar } from '../components/utils/constants.js';
+import { popUpImageContainer, cardListSection, userNameSelector, userActivitySelector, validationObject, buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, popUpProfileContainer, popUpNewPlaceContainer, buttonOpenPopUpAvatar, popUpAvatarContainer, formProfile, formNewPlace, formAvatar } from '../components/utils/constants.js';
 import Section from '../components/Section.js';
 import { Card } from '../components/Card';
 import { api } from '../components/Api';
 import { UserInfo } from '../components/UserInfo';
 import { FormValidator } from '../components/FormValidator.js';
-import { Popup } from '../components/Popup.js';
 import './index.css';
 import { PopupWithForm } from '../components/PopupWithForm.js';
+import { PopupWithImage} from '../components/PopupWithImage.js';
 
 let userId;
 
@@ -43,16 +43,12 @@ Promise.all([
           console.log(err);
         }),
       (name, about) => api.patchProfileInfo(name, about)
-        .then(() => {
-          //   // Закрыть модальное окно
-          //   closePopUp(popUpProfileContainer);
-          // })
-          // .catch((err) => {
-          //   console.log(err);
-          // })
-          // .finally(() => {
-          //   renderLoading(false, button, 'Сохранить');
+        .catch((err) => {
+          console.log(err);
         })
+      //   .finally(() => {
+      //     renderLoading(false, button, 'Сохранить');
+      // })
     );
 
     userInfo.renderUserInfo();
@@ -178,7 +174,6 @@ function createCard(cardData) {
         if (!thisCard._likeButton.classList.contains("element__like_on")) {
           api.putLike(thisCard._cardId)
             .then((dataCard) => {
-              console.log(thisCard.setLikesInfo);
               thisCard.setLikesInfo(dataCard);
             })
             .catch((err) => {
@@ -188,7 +183,6 @@ function createCard(cardData) {
         else {
           api.deleteLike(thisCard._cardId)
             .then((dataCard) => {
-              console.log('test1');
               thisCard.setLikesInfo(dataCard);
             })
             .catch((err) => {
@@ -204,6 +198,9 @@ function createCard(cardData) {
           .catch((err) => {
             console.log(err);
           });
+      },
+      openImagePopup: (cardUrl, cardName) => {
+        new PopupWithImage(popUpImageContainer).open(cardUrl, cardName);
       }
     }
   );
