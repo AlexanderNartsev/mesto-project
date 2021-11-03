@@ -88,10 +88,11 @@ buttonOpenPopUpProfile.addEventListener('click', () => {
         })
         .finally(() => {
           // renderLoading(false, button, 'Сохранить');
-          console.log('finall')
+          //console.log('finall')
         })
     }
   }).open();
+  new FormValidator(validationObject).resetValidation(formProfile);
 });
 
 buttonOpenPopUpAvatar.addEventListener('click', () => {
@@ -99,7 +100,7 @@ buttonOpenPopUpAvatar.addEventListener('click', () => {
     popUp: popUpAvatarContainer,
     func: (data) => {
       const url = data.url;
-      const button = formProfile.querySelector('.button_type_save')
+      const button = formAvatar.querySelector('.button_type_save')
       // renderLoading(true, button)
 
       api.patchAvatar(url)
@@ -112,10 +113,11 @@ buttonOpenPopUpAvatar.addEventListener('click', () => {
         })
         .finally(() => {
           // renderLoading(false, button, 'Сохранить');
-          console.log('finall')
+          //console.log('finall')
         })
     }
   }).open();
+  new FormValidator(validationObject).resetValidation(formAvatar);
 });
 
 buttonOpenPopUpNewPlace.addEventListener('click', () => {
@@ -125,7 +127,7 @@ buttonOpenPopUpNewPlace.addEventListener('click', () => {
       const name = data.cardName;
       const link = data.cardUrl;
 
-      const button = formProfile.querySelector('.button_type_save')
+      const button = formNewPlace.querySelector('.button_type_save')
       // renderLoading(true, button)
 
       api.postNewCard(name, link)
@@ -152,6 +154,7 @@ buttonOpenPopUpNewPlace.addEventListener('click', () => {
         })
     }
   }).open();
+  new FormValidator(validationObject).resetValidation(formNewPlace);
 });
 
 new FormValidator(validationObject).enableValidation();
