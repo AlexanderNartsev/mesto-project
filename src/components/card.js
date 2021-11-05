@@ -11,7 +11,7 @@ export class Card {
     this._handleLikeClick = functions.handleLikeClick;
     this._deleteCard = functions.deleteCard;
     this._openPopup = functions.openImagePopup;
-    this._cardLikeCounter; // ?
+    this._cardLikeCounter; // ? 
     this._likeButton;
     this._deleteButton;
     this._placeImage;

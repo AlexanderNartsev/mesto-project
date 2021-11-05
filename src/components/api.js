@@ -10,12 +10,7 @@ export class Api {
     return fetch(`${this._url}/cards`, {
       headers: this._headers
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        }
-        return promise.reject(`Ошибка: ${res.status}`);
-      })
+    .then(this._checkResponse);
   }
 
   // Загрузить данные профиля
@@ -24,12 +19,7 @@ export class Api {
     return fetch(`${this._url}/users/me`, {
       headers: this._headers
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        }
-        return promise.reject(`Ошибка: ${res.status}`);
-      })
+    .then(this._checkResponse);
   }
 
   // Изменить данные профиля
@@ -43,12 +33,7 @@ export class Api {
         about
       })
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        }
-        return promise.reject(`Ошибка: ${res.status}`);
-      })
+    .then(this._checkResponse);
   }
 
   // Добавить карточку
@@ -62,12 +47,7 @@ export class Api {
         link
       })
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        }
-        return promise.reject(`Ошибка: ${res.status}`);
-      })
+    .then(this._checkResponse);
   }
 
   //Удалить карточку
@@ -77,12 +57,7 @@ export class Api {
       method: 'DELETE',
       headers: this._headers
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        }
-        return promise.reject(`Ошибка: ${res.status}`);
-      })
+    .then(this._checkResponse);
   }
 
   // Установить лайк
@@ -92,12 +67,7 @@ export class Api {
     method: 'PUT',
     headers: this._headers
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json()
-      }
-      return promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(this._checkResponse);
   }
 
   // Cнять лайк
@@ -107,12 +77,7 @@ export class Api {
     method: 'DELETE',
     headers: this._headers
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json()
-      }
-      return promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(this._checkResponse);
   }
 
   // Обновить аватар
@@ -125,12 +90,15 @@ export class Api {
       avatar: avatarLink
     })
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json()
-      }
-      return promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(this._checkResponse);
+  }
+
+  _checkResponse(res) {
+    if (!res.ok) {
+      return Promise.reject(`Ошибка: ${res.status}`);
+    } else {
+      return res.json();
+    }
   }
 }
 
