@@ -188,7 +188,10 @@ function createCard(cardData) {
           });
       },
       openImagePopup: (cardUrl, cardName) => {
-        new PopupWithImage(popUpImageContainer).open(cardUrl, cardName);
+        const popUpImage = new PopupWithImage(popUpImageContainer);
+        popUpImage.open(cardUrl, cardName);
+        popUpImage.setEventListeners();
+
       }
     }
   );

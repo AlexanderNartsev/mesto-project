@@ -12,9 +12,9 @@ export class PopupWithImage extends Popup {
 
     super.open();
 
-    this.popUp.querySelector('.image-popup__image').setAttribute('src', cardUrl);
-    this.popUp.querySelector('.image-popup__image').setAttribute('alt', cardName);
-    this.popUp.querySelector('.image-popup__name').textContent = cardName;
+    this._popUp.querySelector('.image-popup__image').setAttribute('src', cardUrl);
+    this._popUp.querySelector('.image-popup__image').setAttribute('alt', cardName);
+    this._popUp.querySelector('.image-popup__name').textContent = cardName;
 
   }
 
