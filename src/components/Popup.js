@@ -2,26 +2,25 @@ export class Popup {
 
   constructor(popUp) {
 
-    this.popUp = popUp;
-    this.page = document.querySelector('.page');
+    this._popUp = popUp;
+    this._page = document.querySelector('.page');
 
   }
 
   close() {
 
-    this.page.removeEventListener('keydown', () => { this._handleEscClose() });
-    this.popUp.removeEventListener('click', (evt) => { this._closeByOverlayOrButton(evt) });
-    this.popUp.classList.remove('form-container_opened');
+    this._page.removeEventListener('keydown', this._handleEscClose);
+    this._popUp.classList.remove('form-container_opened');
 
   };
 
-  _handleEscClose(evt) {
+  _handleEscClose = (evt) => {
     if (evt && evt.key === 'Escape') {
       this.close();
     };
   }
 
-  _closeByOverlayOrButton(evt) {
+  _closeByOverlayOrButton = (evt) => {
 
     if (evt.target === evt.currentTarget || evt.target.parentElement.classList.contains('button_type_close')) {
       this.close();
@@ -31,15 +30,14 @@ export class Popup {
 
   setEventListeners() {
 
-    this.page.addEventListener('keydown', (evt) => { this._handleEscClose(evt) });
-    this.popUp.addEventListener('click', (evt) => { this._closeByOverlayOrButton(evt) });
+    this._popUp.addEventListener('click', this._closeByOverlayOrButton);
 
   }
 
   open() {
 
-    this.popUp.classList.add('form-container_opened');
-    this.setEventListeners();
+    this._popUp.classList.add('form-container_opened');
+    this._page.addEventListener('keydown', this._handleEscClose);
 
   }
 
