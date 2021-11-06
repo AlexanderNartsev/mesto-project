@@ -6,7 +6,7 @@ import { UserInfo } from '../components/UserInfo';
 import { FormValidator } from '../components/FormValidator.js';
 import './index.css';
 import { PopupWithForm } from '../components/PopupWithForm.js';
-import { PopupWithImage} from '../components/PopupWithImage.js';
+import { PopupWithImage } from '../components/PopupWithImage.js';
 
 let userId;
 
@@ -69,100 +69,88 @@ function renderLoading(isLoading, form, text) {
   }
 }
 
-// Установка слушателей на элементы
-buttonOpenPopUpProfile.addEventListener('click', () => {
+const PopupForm = new PopupWithForm({
+  popUp: popUpProfileContainer,
+  func: (data) => {
+    const name = data.name;
+    const about = data.about;
 
-  const nameInput = popUpProfileContainer.querySelector('.form__item[name=name]');
-  const aboutInput = popUpProfileContainer.querySelector('.form__item[name=about]');
+    renderLoading(true, formProfile);
 
-  nameInput.value = document.querySelector('.profile__name').textContent;
-  aboutInput.value = document.querySelector('.profile__text').textContent;
-
-  new PopupWithForm({
-    popUp: popUpProfileContainer,
-    func: (data) => {
-      const name = data.name;
-      const about = data.about;
-
-      renderLoading(true, formProfile);
-
-      api.patchProfileInfo(name, about)
-        .then(() => {
-          document.querySelector('.profile__name').textContent = name;
-          document.querySelector('.profile__text').textContent = about;
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          renderLoading(false, formProfile, 'Сохранить');
-        })
-    }
-  }).open();
-  new FormValidator(validationObject).resetValidation(formProfile);
+    api.patchProfileInfo(name, about)
+      .then(() => {
+        document.querySelector('.profile__name').textContent = name;
+        document.querySelector('.profile__text').textContent = about;
+        PopupForm.close();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        renderLoading(false, formProfile, 'Сохранить');
+      })
+  }
 });
 
-buttonOpenPopUpAvatar.addEventListener('click', () => {
-  new PopupWithForm({
-    popUp: popUpAvatarContainer,
-    func: (data) => {
-      const url = data.url;
+const PopUpAvatar = new PopupWithForm({
+  popUp: popUpAvatarContainer,
+  func: (data) => {
+    const url = data.url;
 
-      renderLoading(true, formAvatar);
+    renderLoading(true, formAvatar);
 
-      api.patchAvatar(url)
-        .then(() => {
-          // Присвоить введённые значения на форме полям профиля
-          document.querySelector('.profile__avatar').setAttribute('src', url);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          renderLoading(false, formAvatar, 'Сохранить');
-        })
-    }
-  }).open();
-  new FormValidator(validationObject).resetValidation(formAvatar);
+    api.patchAvatar(url)
+      .then(() => {
+        // Присвоить введённые значения на форме полям профиля
+        document.querySelector('.profile__avatar').setAttribute('src', url);
+        PopUpAvatar.close();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        renderLoading(false, formAvatar, 'Сохранить');
+      })
+  }
 });
 
-buttonOpenPopUpNewPlace.addEventListener('click', () => {
-  new PopupWithForm({
-    popUp: popUpNewPlaceContainer,
-    func: (data) => {
-      const name = data.cardName;
-      const link = data.cardUrl;
+const PopUpPlace = new PopupWithForm({
+  popUp: popUpNewPlaceContainer,
+  func: (data) => {
+    const name = data.cardName;
+    const link = data.cardUrl;
 
-      renderLoading(true, formNewPlace);
+    renderLoading(true, formNewPlace);
 
-      api.postNewCard(name, link)
-        .then(
-          data => {
-            const newCard = new Section({
-              items: data,
-              renderer: (item) => {
-                const card = createCard(item);
+    api.postNewCard(name, link)
+      .then(
+        data => {
+          const newCard = new Section({
+            items: data,
+            renderer: (item) => {
+              const card = createCard(item);
 
-                const cardElement = card.generate();
-                newCard.setItem(cardElement);
-              },
+              const cardElement = card.generate();
+              newCard.setItem(cardElement);
             },
-              cardListSection
-            );
-            newCard.renderItems();
-          })
-        .catch((err) => {
-          console.log(err);
+          },
+            cardListSection
+          );
+          newCard.renderItems();
+          PopUpPlace.close();
         })
-        .finally(() => {
-          renderLoading(false, formNewPlace, 'Создать')
-        })
-    }
-  }).open();
-  new FormValidator(validationObject).resetValidation(formNewPlace);
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        renderLoading(false, formNewPlace, 'Создать')
+      })
+  }
 });
 
-new FormValidator(validationObject).enableValidation();
+const PopUpFormValidator = new FormValidator(validationObject, formProfile);
+const PopUpAvatarValidator = new FormValidator(validationObject, formAvatar);
+const PopUpPlaceValidator = new FormValidator(validationObject, formNewPlace);
 
 function createCard(cardData) {
   const card = new Card(
@@ -206,3 +194,27 @@ function createCard(cardData) {
   );
   return card;
 }
+
+// Установка слушателей на элементы
+buttonOpenPopUpProfile.addEventListener('click', () => {
+  const nameInput = popUpProfileContainer.querySelector('.form__item[name=name]');
+  const aboutInput = popUpProfileContainer.querySelector('.form__item[name=about]');
+  nameInput.value = document.querySelector('.profile__name').textContent;
+  aboutInput.value = document.querySelector('.profile__text').textContent;
+  PopupForm.open();
+  PopUpFormValidator.enableValidation();
+});
+
+buttonOpenPopUpAvatar.addEventListener('click', () => {
+  PopUpAvatar.open();
+  PopUpAvatarValidator.enableValidation();
+});
+
+buttonOpenPopUpNewPlace.addEventListener('click', () => {
+  PopUpPlace.open();
+  PopUpPlaceValidator.enableValidation();
+});
+
+PopupForm.setEventListeners();
+PopUpAvatar.setEventListeners();
+PopUpPlace.setEventListeners();
