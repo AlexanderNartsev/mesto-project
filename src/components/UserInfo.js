@@ -12,22 +12,24 @@ export class UserInfo {
     return this._getUserData();
   }
 
-  renderUserInfo() {
-    this.getUserInfo().then((res) => {
-      this._name.textContent = res.name;
-      this._activity.textContent = res.about;
-      this._profileAvatar.setAttribute('src', res.avatar);
-      this._profileAvatar.setAttribute('alt', res.name);
-    })
-  }
+  // renderUserInfo() {
+  //   this.getUserInfo()
+  //     .then((res) => {
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     })
+  // }
 
   setUserInfo(newProfileData) {
     //Отправляем данные на сервер
-    this._patchUserData(newProfileData.name, newProfileData.about, newProfileData.avatar);
+    this._patchUserData(newProfileData.name, newProfileData.about);
 
-    //Обновляем отрисовку данных профиля 
-    this.renderUserInfo();
-    // profileId = UserInfo.id;
+    //Добавляем данные на страницу
+    this._name.textContent = newProfileData.name;
+    this._activity.textContent = newProfileData.about;
+    this._profileAvatar.setAttribute('src', newProfileData.avatar);
+    this._profileAvatar.setAttribute('alt', newProfileData.name);
   }
   
 }

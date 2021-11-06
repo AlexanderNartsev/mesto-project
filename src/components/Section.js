@@ -6,16 +6,19 @@ export default class Section {
     this._container = document.querySelector(selector);
   }
 
+  //Метод отрисовки начального массива
   renderItems() {
-    if (Array.isArray(this._renderedItems)) {
-      this._renderedItems = this._renderedItems.reverse();
-      this._renderedItems.forEach(item => this._renderer(item));
-    } else {
-      this._renderer(this._renderedItems)
-    }
+    this._renderedItems = this._renderedItems.reverse();
+    this._renderedItems.forEach(item => this._renderer(item));
+  }
+
+  //Метод отрисовки отдельного элемента
+  renderItem(item) {
+    this._renderer(item);
   }
 
   setItem(element) {
+    console.log('test');
     this._container.prepend(element);
   }
 }

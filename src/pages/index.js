@@ -9,6 +9,8 @@ import { PopupWithForm } from '../components/PopupWithForm.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 
 let userId;
+let section;
+let userInfo;
 
 Promise.all([
   api.getProfileInfo(),
@@ -16,24 +18,24 @@ Promise.all([
 ])
   .then((values) => {
     // Обработка карточек
-    const cardsList = new Section({
+    section = new Section({
       items: values[1],
       renderer: (item) => {
         userId = values[0]._id;
         const card = createCard(item);
-
+    
         const cardElement = card.generate();
-
-        cardsList.setItem(cardElement);
+    
+        section.setItem(cardElement);
       },
     },
       cardListSection
     );
     // отрисовка карточек
-    cardsList.renderItems();
+    section.renderItems();
 
     // Обработка данных профиля
-    const userInfo = new UserInfo(
+    userInfo = new UserInfo(
       { userNameSelector, userActivitySelector },
       () => api.getProfileInfo()
         .then((data) => {
@@ -51,7 +53,7 @@ Promise.all([
       // })
     );
 
-    userInfo.renderUserInfo();
+    userInfo.setUserInfo(values[0]);
   })
 
 export let profileId = '';
@@ -125,18 +127,7 @@ const PopUpPlace = new PopupWithForm({
     api.postNewCard(name, link)
       .then(
         data => {
-          const newCard = new Section({
-            items: data,
-            renderer: (item) => {
-              const card = createCard(item);
-
-              const cardElement = card.generate();
-              newCard.setItem(cardElement);
-            },
-          },
-            cardListSection
-          );
-          newCard.renderItems();
+          section.renderItem(data);
           PopUpPlace.close();
         })
       .catch((err) => {
