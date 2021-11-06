@@ -188,8 +188,8 @@ function createCard(cardData) {
           });
       },
       openImagePopup: (cardUrl, cardName) => {
-        const popUpImage = new PopupWithImage(popUpImageContainer);
-        popUpImage.open(cardUrl, cardName);
+        const popUpImage = new PopupWithImage(popUpImageContainer, cardUrl, cardName);
+        popUpImage.open();
         popUpImage.setEventListeners();
 
       }
