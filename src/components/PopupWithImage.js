@@ -18,4 +18,12 @@ export class PopupWithImage extends Popup {
 
   }
 
+  close() {
+
+    super.close();
+
+    this._popUp.removeEventListener('click', this._closeByOverlayOrButton);
+
+  }
+
 }
