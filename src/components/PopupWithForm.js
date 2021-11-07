@@ -2,14 +2,13 @@ import { Popup } from "./Popup";
 
 export class PopupWithForm extends Popup {
 
-  constructor({ popUp, func, getUserData }) {
+  constructor({ popUp, func }) {
 
     super(popUp);
 
     this._form = popUp.querySelector('.form');
     this._inputs = popUp.querySelectorAll('.form__item');
     this._func = func;
-    this._getUserData = getUserData;
 
   }
 

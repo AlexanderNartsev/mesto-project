@@ -39,7 +39,6 @@ Promise.all([
       { userNameSelector, userActivitySelector },
       () => {api.getProfileInfo()
         .then((data) => {
-          console.log('lalala');
           return data;
         })
         .catch((err) => {
@@ -188,13 +187,10 @@ function createCard(cardData) {
 buttonOpenPopUpProfile.addEventListener('click', () => {
   const nameInput = popUpProfileContainer.querySelector('.form__item[name=name]');
   const aboutInput = popUpProfileContainer.querySelector('.form__item[name=about]');
-  userInfo.getUserInfo()
-    .then((userInfo) => {
-      nameInput.value = userInfo.name;
-      aboutInput.value = userInfo.about;
-      PopupForm.open();
-      PopUpFormValidator.enableValidation();
-    })
+  nameInput.value = document.querySelector('.profile__name').textContent;
+  aboutInput.value = document.querySelector('.profile__text').textContent;
+  PopupForm.open();
+  PopUpFormValidator.enableValidation();
 });
 
 buttonOpenPopUpAvatar.addEventListener('click', () => {

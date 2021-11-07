@@ -13,15 +13,6 @@ export class UserInfo {
     return this._getUserData();
   }
 
-  // renderUserInfo() {
-  //   this.getUserInfo()
-  //     .then((res) => {
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     })
-  // }
-
   setUserInfo({name, description, avatar, shouldUpdate}) {
     if(shouldUpdate) {
       if(avatar) {
