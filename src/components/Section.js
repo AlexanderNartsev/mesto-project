@@ -18,7 +18,6 @@ export default class Section {
   }
 
   setItem(element) {
-    console.log('test');
     this._container.prepend(element);
   }
 }

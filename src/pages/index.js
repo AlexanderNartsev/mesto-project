@@ -37,23 +37,39 @@ Promise.all([
     // Обработка данных профиля
     userInfo = new UserInfo(
       { userNameSelector, userActivitySelector },
-      () => api.getProfileInfo()
+      () => {api.getProfileInfo()
         .then((data) => {
+          console.log('lalala');
           return data;
         })
         .catch((err) => {
           console.log(err);
-        }),
+        })},
       (name, about) => api.patchProfileInfo(name, about)
+        .then(() => {
+          PopupForm.close();
+        })
         .catch((err) => {
           console.log(err);
         })
-      //   .finally(() => {
-      //     renderLoading(false, button, 'Сохранить');
-      // })
+        .finally(() => {
+          renderLoading(false, formProfile, 'Сохранить');
+        }),
+      (url) => {
+        console.log('test1');
+        api.patchAvatar(url)
+        .then(() => {
+          PopUpAvatar.close();
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          renderLoading(false, formAvatar, 'Сохранить');
+        })}
     );
 
-    userInfo.setUserInfo(values[0]);
+    userInfo.setUserInfo({name: values[0].name, description: values[0].about, avatar: values[0].avatar});
   })
 
 export let profileId = '';
@@ -74,23 +90,13 @@ function renderLoading(isLoading, form, text) {
 const PopupForm = new PopupWithForm({
   popUp: popUpProfileContainer,
   func: (data) => {
+    
     const name = data.name;
     const about = data.about;
 
     renderLoading(true, formProfile);
 
-    api.patchProfileInfo(name, about)
-      .then(() => {
-        document.querySelector('.profile__name').textContent = name;
-        document.querySelector('.profile__text').textContent = about;
-        PopupForm.close();
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        renderLoading(false, formProfile, 'Сохранить');
-      })
+    userInfo.setUserInfo({name: name, description: about, shouldUpdate: true});
   }
 });
 
@@ -101,18 +107,7 @@ const PopUpAvatar = new PopupWithForm({
 
     renderLoading(true, formAvatar);
 
-    api.patchAvatar(url)
-      .then(() => {
-        // Присвоить введённые значения на форме полям профиля
-        document.querySelector('.profile__avatar').setAttribute('src', url);
-        PopUpAvatar.close();
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        renderLoading(false, formAvatar, 'Сохранить');
-      })
+    userInfo.setUserInfo({avatar: url, shouldUpdate: true});
   }
 });
 
@@ -193,10 +188,13 @@ function createCard(cardData) {
 buttonOpenPopUpProfile.addEventListener('click', () => {
   const nameInput = popUpProfileContainer.querySelector('.form__item[name=name]');
   const aboutInput = popUpProfileContainer.querySelector('.form__item[name=about]');
-  nameInput.value = document.querySelector('.profile__name').textContent;
-  aboutInput.value = document.querySelector('.profile__text').textContent;
-  PopupForm.open();
-  PopUpFormValidator.enableValidation();
+  userInfo.getUserInfo()
+    .then((userInfo) => {
+      nameInput.value = userInfo.name;
+      aboutInput.value = userInfo.about;
+      PopupForm.open();
+      PopUpFormValidator.enableValidation();
+    })
 });
 
 buttonOpenPopUpAvatar.addEventListener('click', () => {
