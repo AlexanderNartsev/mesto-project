@@ -37,13 +37,15 @@ Promise.all([
     // Обработка данных профиля
     userInfo = new UserInfo(
       { userNameSelector, userActivitySelector, userAvatarSelector },
-      () => {return api.getProfileInfo()
-        .then((data) => {
-          return data;
-        })
-        .catch((err) => {
-          console.log(err);
-        })},
+      () => {
+        return api.getProfileInfo()
+          .then((data) => {
+            return data;
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+      },
       (name, about) => api.patchProfileInfo(name, about)
         .then(() => {
           popUpForm.close();
@@ -145,7 +147,7 @@ function createCard(cardData) {
     userId,
     {
       handleLikeClick: (thisCard) => {
-        if (!thisCard._likeButton.classList.contains("element__like_on")) {
+        if (!thisCard.isLiked()) {
           api.putLike(thisCard._cardId)
             .then((dataCard) => {
               thisCard.setLikesInfo(dataCard);
@@ -188,7 +190,7 @@ buttonOpenPopUpProfile.addEventListener('click', () => {
       nameInput.value = res.name;
       aboutInput.value = res.about;
       popUpForm.open();
-      popUpFormValidator.enableValidation();
+      popUpFormValidator.resetValidation();
     })
 });
 
