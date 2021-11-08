@@ -187,8 +187,8 @@ buttonOpenPopUpProfile.addEventListener('click', () => {
     .then((res) => {
       nameInput.value = res.name;
       aboutInput.value = res.about;
-      PopupForm.open();
-      PopUpFormValidator.enableValidation();
+      popUpForm.open();
+      popUpFormValidator.enableValidation();
     })
 });
 
