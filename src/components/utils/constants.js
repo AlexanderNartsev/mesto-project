@@ -37,3 +37,6 @@ export const popUpAvatarContainer = formAvatar.closest('.form-container');
 export const buttonOpenPopUpProfile = page.querySelector('.button_type_edit');
 export const buttonOpenPopUpNewPlace = page.querySelector('.button_type_add');
 export const buttonOpenPopUpAvatar = page.querySelector('.profile__avatar');
+
+export const nameInput = popUpProfileContainer.querySelector('.form__item[name=name]');
+export const aboutInput = popUpProfileContainer.querySelector('.form__item[name=about]');

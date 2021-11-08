@@ -1,4 +1,4 @@
-import { popUpImageContainer, cardListSection, userNameSelector, userActivitySelector, validationObject, buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, popUpProfileContainer, popUpNewPlaceContainer, buttonOpenPopUpAvatar, popUpAvatarContainer, formProfile, formNewPlace, formAvatar } from '../components/utils/constants.js';
+import { nameInput, aboutInput, popUpImageContainer, cardListSection, userNameSelector, userActivitySelector, validationObject, buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, popUpProfileContainer, popUpNewPlaceContainer, buttonOpenPopUpAvatar, popUpAvatarContainer, formProfile, formNewPlace, formAvatar } from '../components/utils/constants.js';
 import Section from '../components/Section.js';
 import { Card } from '../components/Card';
 import { api } from '../components/Api';
@@ -37,7 +37,7 @@ Promise.all([
     // Обработка данных профиля
     userInfo = new UserInfo(
       { userNameSelector, userActivitySelector },
-      () => {api.getProfileInfo()
+      () => {return api.getProfileInfo()
         .then((data) => {
           return data;
         })
@@ -55,7 +55,6 @@ Promise.all([
           renderLoading(false, formProfile, 'Сохранить');
         }),
       (url) => {
-        console.log('test1');
         api.patchAvatar(url)
         .then(() => {
           PopUpAvatar.close();
@@ -185,12 +184,13 @@ function createCard(cardData) {
 
 // Установка слушателей на элементы
 buttonOpenPopUpProfile.addEventListener('click', () => {
-  const nameInput = popUpProfileContainer.querySelector('.form__item[name=name]');
-  const aboutInput = popUpProfileContainer.querySelector('.form__item[name=about]');
-  nameInput.value = document.querySelector('.profile__name').textContent;
-  aboutInput.value = document.querySelector('.profile__text').textContent;
-  PopupForm.open();
-  PopUpFormValidator.enableValidation();
+  userInfo.getUserInfo()
+    .then((res) => {
+      nameInput.value = res.name;
+      aboutInput.value = res.about;
+      PopupForm.open();
+      PopUpFormValidator.enableValidation();
+    })
 });
 
 buttonOpenPopUpAvatar.addEventListener('click', () => {
