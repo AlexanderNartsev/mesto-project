@@ -1,4 +1,4 @@
-import { nameInput, aboutInput, popUpImageContainer, cardListSection, userNameSelector, userActivitySelector, validationObject, buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, popUpProfileContainer, popUpNewPlaceContainer, buttonOpenPopUpAvatar, popUpAvatarContainer, formProfile, formNewPlace, formAvatar } from '../components/utils/constants.js';
+import { userAvatarSelector, nameInput, aboutInput, popUpImageContainer, cardListSection, userNameSelector, userActivitySelector, validationObject, buttonOpenPopUpProfile, buttonOpenPopUpNewPlace, popUpProfileContainer, popUpNewPlaceContainer, buttonOpenPopUpAvatar, popUpAvatarContainer, formProfile, formNewPlace, formAvatar } from '../utils/constants.js';
 import Section from '../components/Section.js';
 import { Card } from '../components/Card';
 import { api } from '../components/Api';
@@ -36,7 +36,7 @@ Promise.all([
 
     // Обработка данных профиля
     userInfo = new UserInfo(
-      { userNameSelector, userActivitySelector },
+      { userNameSelector, userActivitySelector, userAvatarSelector },
       () => {return api.getProfileInfo()
         .then((data) => {
           return data;

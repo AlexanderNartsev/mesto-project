@@ -5,7 +5,7 @@ export class UserInfo {
     this._getUserData = getUserData;
     this._patchUserData = patchUserData;
     this._patchAvatar = patchAvatar;
-    this._profileAvatar = document.querySelector('.profile__avatar');
+    this._profileAvatar = document.querySelector(profileSelectors.userAvatarSelector);
   }
 
   //Получаем данные профиля с сервера

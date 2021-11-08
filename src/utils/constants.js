@@ -1,6 +1,7 @@
 export const cardListSection = '.elements';
 export const userNameSelector = '.profile__name';
 export const userActivitySelector = '.profile__text';
+export const userAvatarSelector = '.profile__avatar';
 
 export const validationObject = {
 
