@@ -19,7 +19,7 @@ export class Api {
     return fetch(`${this._url}/users/me`, {
       headers: this._headers
     })
-    .then(this._checkResponse);
+    .then((this._checkResponse));
   }
 
   // Изменить данные профиля
