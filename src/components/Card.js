@@ -49,8 +49,8 @@ export class Card {
     });
     // Открытие изображения
     this._placeImage.addEventListener('click', () => {
-      this._openPopup(this._cardImage, this._cardName);  
-    });                                                      
+      this._openPopup(this._cardImage, this._cardName);
+    });
   }
 
   // "Заполнение" карточки данными
@@ -103,5 +103,16 @@ export class Card {
     this._setDeleteButtonActive()
 
     return this._element;
+  }
+
+  isLiked() {
+
+    if (this._likeButton.classList.contains("element__like_on")) {
+      return true;
+    }
+    else {
+      return false;
+    }
+
   }
 }

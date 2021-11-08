@@ -14,13 +14,13 @@ export class PopupWithForm extends Popup {
 
   _getInputValues() {
 
-    this.inputValues = {};
+    this._inputValues = {};
 
     this._inputs.forEach(input => {
-      this.inputValues[input.name] = input.value;
+      this._inputValues[input.name] = input.value;
     });
 
-    return this.inputValues;
+    return this._inputValues;
 
   }
 
@@ -36,7 +36,7 @@ export class PopupWithForm extends Popup {
 
     evt.preventDefault();
     this._getInputValues();
-    this._func(this.inputValues);
+    this._func(this._inputValues);
 
   }
 
