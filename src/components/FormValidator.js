@@ -48,7 +48,7 @@ export class FormValidator {
 
   }
 
-  _toggleButtonState(inputList, buttonElement, object) {
+  _toggleButtonState(inputList, buttonElement) {
 
     if (this._hasInvalidInput(inputList)) {
       buttonElement.classList.add(this._inactiveButtonClass);
@@ -74,7 +74,7 @@ export class FormValidator {
 
   }
 
-  _resetValidation() {
+  resetValidation() {
 
     const inputList = Array.from(this._formEl.querySelectorAll(this._inputSelector));
     const buttonElement = this._formEl.querySelector(this._submitButtonSelector);
@@ -92,7 +92,7 @@ export class FormValidator {
   enableValidation() {
 
     this._setEventListeners();
-    this._resetValidation();
+    this.resetValidation();
 
   }
 

@@ -23,9 +23,9 @@ Promise.all([
       renderer: (item) => {
         userId = values[0]._id;
         const card = createCard(item);
-    
+
         const cardElement = card.generate();
-    
+
         section.setItem(cardElement);
       },
     },
@@ -46,7 +46,7 @@ Promise.all([
         })},
       (name, about) => api.patchProfileInfo(name, about)
         .then(() => {
-          PopupForm.close();
+          popUpForm.close();
         })
         .catch((err) => {
           console.log(err);
@@ -56,18 +56,19 @@ Promise.all([
         }),
       (url) => {
         api.patchAvatar(url)
-        .then(() => {
-          PopUpAvatar.close();
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          renderLoading(false, formAvatar, 'Сохранить');
-        })}
+          .then(() => {
+            popUpAvatar.close();
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          .finally(() => {
+            renderLoading(false, formAvatar, 'Сохранить');
+          })
+      }
     );
 
-    userInfo.setUserInfo({name: values[0].name, description: values[0].about, avatar: values[0].avatar});
+    userInfo.setUserInfo({ name: values[0].name, description: values[0].about, avatar: values[0].avatar });
   })
 
 export let profileId = '';
@@ -85,31 +86,31 @@ function renderLoading(isLoading, form, text) {
   }
 }
 
-const PopupForm = new PopupWithForm({
+const popUpForm = new PopupWithForm({
   popUp: popUpProfileContainer,
   func: (data) => {
-    
+
     const name = data.name;
     const about = data.about;
 
     renderLoading(true, formProfile);
 
-    userInfo.setUserInfo({name: name, description: about, shouldUpdate: true});
+    userInfo.setUserInfo({ name: name, description: about, shouldUpdate: true });
   }
 });
 
-const PopUpAvatar = new PopupWithForm({
+const popUpAvatar = new PopupWithForm({
   popUp: popUpAvatarContainer,
   func: (data) => {
     const url = data.url;
 
     renderLoading(true, formAvatar);
 
-    userInfo.setUserInfo({avatar: url, shouldUpdate: true});
+    userInfo.setUserInfo({ avatar: url, shouldUpdate: true });
   }
 });
 
-const PopUpPlace = new PopupWithForm({
+const popUpPlace = new PopupWithForm({
   popUp: popUpNewPlaceContainer,
   func: (data) => {
     const name = data.cardName;
@@ -121,7 +122,7 @@ const PopUpPlace = new PopupWithForm({
       .then(
         data => {
           section.renderItem(data);
-          PopUpPlace.close();
+          popUpPlace.close();
         })
       .catch((err) => {
         console.log(err);
@@ -132,9 +133,10 @@ const PopUpPlace = new PopupWithForm({
   }
 });
 
-const PopUpFormValidator = new FormValidator(validationObject, formProfile);
-const PopUpAvatarValidator = new FormValidator(validationObject, formAvatar);
-const PopUpPlaceValidator = new FormValidator(validationObject, formNewPlace);
+const popUpFormValidator = new FormValidator(validationObject, formProfile);
+const popUpAvatarValidator = new FormValidator(validationObject, formAvatar);
+const popUpPlaceValidator = new FormValidator(validationObject, formNewPlace);
+const popUpImage = new PopupWithImage(popUpImageContainer);
 
 function createCard(cardData) {
   const card = new Card(
@@ -172,10 +174,7 @@ function createCard(cardData) {
           });
       },
       openImagePopup: (cardUrl, cardName) => {
-        const popUpImage = new PopupWithImage(popUpImageContainer, cardUrl, cardName);
-        popUpImage.open();
-        popUpImage.setEventListeners();
-
+        popUpImage.open(cardUrl, cardName);
       }
     }
   );
@@ -194,15 +193,20 @@ buttonOpenPopUpProfile.addEventListener('click', () => {
 });
 
 buttonOpenPopUpAvatar.addEventListener('click', () => {
-  PopUpAvatar.open();
-  PopUpAvatarValidator.enableValidation();
+  popUpAvatar.open();
+  popUpAvatarValidator.resetValidation();
 });
 
 buttonOpenPopUpNewPlace.addEventListener('click', () => {
-  PopUpPlace.open();
-  PopUpPlaceValidator.enableValidation();
+  popUpPlace.open();
+  popUpPlaceValidator.resetValidation();
 });
 
-PopupForm.setEventListeners();
-PopUpAvatar.setEventListeners();
-PopUpPlace.setEventListeners();
+popUpFormValidator.enableValidation();
+popUpAvatarValidator.enableValidation();
+popUpPlaceValidator.enableValidation();
+
+popUpForm.setEventListeners();
+popUpAvatar.setEventListeners();
+popUpPlace.setEventListeners();
+popUpImage.setEventListeners();
